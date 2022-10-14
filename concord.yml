@@ -21,6 +21,8 @@ configuration:
     retryDelay: 10
     retryTimes: 3
     childJobId: ""
+    concordPid: ${txId}
+    concordServerUrl: "http://node1.neoworkz.org:8001/#/process"
 
 forms:
   approvalForm:
