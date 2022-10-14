@@ -1,0 +1,31 @@
+configuration:
+  dependencies:
+    - mvn://org.python:jython-standalone:2.7.1
+    - mvn://org.codehaus.groovy:groovy-all:pom:2.5.2
+
+  arguments:
+    entryPoint: deploy
+    version: ""
+    branch: ""
+    commitSHA: ""
+    kittFiles: []
+    repo: ""
+    baseProfile: {}
+    event: ""
+    channelName: "hawkeye-kitt"
+    stages: []
+    slackThreadTs: ""
+    httpConnectTimeout: 30000
+    httpRequestTimeout: 30000
+    httpSocketTimeout: 30000
+    retryDelay: 10
+    retryTimes: 3
+    childJobId: ""
+
+forms:
+  approvalForm:
+    - approved: { type: boolean }
+
+flows:
+  default:
+    - log: "Hawkeye-Concord | This is the default flow"
