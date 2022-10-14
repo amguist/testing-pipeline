@@ -4,29 +4,8 @@ configuration:
     - mvn://org.codehaus.groovy:groovy-all:pom:2.5.2
 
   arguments:
-    entryPoint: deploy
-    version: ""
-    branch: ""
-    commitSHA: ""
-    kittFiles: []
-    repo: ""
-    baseProfile: {}
-    event: ""
-    channelName: "hawkeye-kitt"
-    stages: []
-    slackThreadTs: ""
-    httpConnectTimeout: 30000
-    httpRequestTimeout: 30000
-    httpSocketTimeout: 30000
-    retryDelay: 10
-    retryTimes: 3
-    childJobId: ""
     concordPid: ${txId}
     concordServerUrl: "http://node1.neoworkz.org:8001/#/process"
-
-forms:
-  approvalForm:
-    - approved: { type: boolean }
 
 flows:
   default:
