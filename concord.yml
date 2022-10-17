@@ -3,6 +3,20 @@ configuration:
     - mvn://org.python:jython-standalone:2.7.1
     - mvn://org.codehaus.groovy:groovy-all:pom:2.5.2
 
+  arguments:
+    version: ""
+    branch: ""
+    commitSHA: ""
+    kittFiles: [ "test-env-cloud.yml", "release-3040-cloud.yml", "release-8972-cloud.yml" ]
+    kittRelationships: [ ["test-env-cloud.yml","release-3040-cloud.yml" ], [ "test-env-cloud.yml", "release-8972-cloud.yml" ] ]
+    repo: ""
+    baseProfile: { }
+    event: ""
+    channelName: "hawkeye-kitt"
+    stages: [ ]
+
+
+
 flows:
   default:
     - log: "Hawkeye-Concord | Process ID is ${concordPid}"
