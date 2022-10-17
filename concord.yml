@@ -15,8 +15,6 @@ configuration:
     channelName: "hawkeye-kitt"
     stages: [ ]
 
-
-
 flows:
   default:
     - log: "Hawkeye-Concord | Process ID is ${concordPid}"
