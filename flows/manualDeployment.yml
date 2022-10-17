@@ -1,8 +1,8 @@
 Manuel_Deployment:
   - form: manualDeploymentForm
     fields:
-      - repo: { label: "Repository", type: "string", readonly: true, ${repo} }
-      - branch: { label: "Branch:", type: "string", readonly: true, allow: ${branch}  }
+      - repository: { label: "Repository", type: "string", readonly: true, ${repo} }
+      - productBranch: { label: "Branch:", type: "string", readonly: true, allow: ${branch}  }
       - pipelineFlow: { label: "Flow", type: "string" }
 
   - log: "Concord | Invoking Flow: (manualDeploymentForm.pipelineFlow)"
