@@ -1,0 +1,7 @@
+Manuel_Deployment:
+  - form: manualDeploymentForm
+    fields:
+      - product: { label: "Product", type: "string" }
+      - pipelineFlow: { label: "Flow", type: "string" }
+
+  - log: "Concord | Invoking Flow: (manualDeploymentForm.pipelineFlow)"
