@@ -1,7 +1,7 @@
 Manuel_Deployment:
   - form: manualDeploymentForm
     fields:
-      - repository: { label: "Repository", type: "string", readonly: true, allow: "${repo}" }
+      - repository: { label: "Repository", type: "string?", readonly: true, allow: "${repo}" }
       - productBranch: { label: "Branch:", type: "string", readonly: true, allow: "${branch}" }
       - kittFiles: { label: "Kitt Files:", type: "string", readonly: true, allow: "${kittFiles}" }
       - pipelineFlow: { label: "Flow", type: "string", allow: "${kittRelationships}", search: true }
