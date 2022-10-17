@@ -1,7 +1,7 @@
 Manuel_Deployment:
   - form: manualDeploymentForm
     fields:
-      - repository: { label: "Repository", type: "string", readonly: true, allow: "main" }
+      - repository: { label: "Repository", type: "string", readonly: true, allow: "${repo}" }
       - productBranch: { label: "Branch:", type: "string", readonly: true, allow: "main" }
       - pipelineFlow: { label: "Flow", type: "string" }
 
