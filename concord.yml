@@ -4,12 +4,12 @@ configuration:
     - mvn://org.codehaus.groovy:groovy-all:pom:2.5.2
 
   arguments:
-    version: ""
-    branch: ""
+    version: "1.0"
+    branch: "main"
     commitSHA: ""
     kittFiles: [ "test-env-cloud.yml", "release-3040-cloud.yml", "release-8972-cloud.yml" ]
     kittRelationships: [ ["test-env-cloud.yml","release-3040-cloud.yml" ], [ "test-env-cloud.yml", "release-8972-cloud.yml" ] ]
-    repo: ""
+    repo: "http://github.com/amguist/test-pipeline"
     baseProfile: { }
     event: ""
     channelName: "hawkeye-kitt"
