@@ -21,6 +21,6 @@ flows:
 
 forms:
   myForm:
-    - onlyDeployOrg: { label: "Organization", type: "string", readyOnly: true, placeholder: "Hawkeye" }
-    - onlyDeployRepo: { label: "Repository", type: "string", readOnly: true }
-    - onlyDeployBranch: { label: "Branch", type: "string", readOnly: true }
+    - onlyDeployOrg: { label: "Organization", type: "string" }
+    - onlyDeployRepo: { label: "Repository", type: "string" }
+    - onlyDeployBranch: { label: "Branch", type: "string" }
