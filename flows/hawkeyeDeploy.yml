@@ -1,7 +1,7 @@
 Deploy:
   - form: myForm
-  - log: "Organization Name: ${myForm:onlyDeployOrg}"
+  - log: "Organization: ${myForm.onlyDeployOrg}"
 
 forms:
   myForm:
-    - onlyDeployOrg: { type: "string" }
+    - onlyDeployOrg: {type: "string"}
