@@ -31,7 +31,7 @@
                 <form id="deploymentForm" class="ui form">
                     <div class="required field">
                         <label>Organization</label>
-                        <div>
+                        <div class="field">
                             <input id="onlyDeployOrg" name="onlyDeployOrg" type="text" class="ui input" readonly="true" value="Hawkeye"/>
                         </div>
                     </div>
@@ -45,6 +45,12 @@
                         <label>Branch</label>
                         <div>
                             <input id="onlyDeployBranch" name="onlyDeployBranch" type="text" class="ui input" readonly="true" />
+                        </div>
+                    </div>
+                    <div class="required field">
+                        <label>Kitt Files</label>
+                        <div role="list" class="ui list">
+
                         </div>
                     </div>
                     <button class="ui primary button" id="customFormSubmitButton" type="submit">Submit</button>
