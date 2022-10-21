@@ -66,6 +66,10 @@
                 $('#onlyDeployRepo').val(data.values.repo);
                 $('#onlyDeployBranch').val(data.values.branch);
 
+                var initialOption = document.createElement("option");
+                option.value = "Select Kitt File";
+
+                $('#onlyDeployKittFiles').add(initialOption)
                 for (const kittFile of data.values.kittFiles) {
                     console.log(kittFile)
                 }
