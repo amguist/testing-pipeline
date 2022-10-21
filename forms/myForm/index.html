@@ -3,22 +3,28 @@
     <head>
         <title>Deploy Form</title>
         <script src="data.js"></script>
+        <script src="../shared/semantic-UI/semantic.min.js"></script>
+        <link rel="stylesheet" href="../shared/semantic-UI/semantic.min.css" />
+        <link rel="stylesheet" href="../shared/dat-common.css" />
     </head>
     <body>
-        <h1>Deploy Hawkeye Product</h1>
-
-        <script type="text/javascript">
-            function handleSubmit(form) {
-                form.action = data.submitUrl;
-            }
-        </script>
-
-        <form method="post" onsubmit="handleSubmit(this)">
-            <label>Organization:</label>
-            <input onlyDeployOrg="organization"/>
-
-            <button>Submit</button>
-        </form>
-
+        <div id="root">
+            <div class="ui centered grid">
+                <div class="sixteen wide column topBar">
+                    <div class="ui centered grid dat-page-header">
+                        <div class="fourteen wide column topBarColumn">
+                            <div class="ui small fluid inverted secondary menu">
+                                <div class="item">
+                                   <img id="concordLogo" src="../shared/logo.svg" class="ui small image"/>
+                                </div>
+                                <div class="right vertically fitted item">
+                                    <span>Powered by DAT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

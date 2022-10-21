@@ -1,0 +1,31 @@
+.formTitle {
+    background-color: gray;
+    margin-top: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+}
+
+.formTitle h2 {
+    color: white !important!;
+}
+
+.formContainer {
+    background-color: lightgray;
+    height: 5000px;
+}
+
+.formElements {
+    background-color: white;
+    height: 5000px;
+    width: 80%;
+    min-width: 400px;
+    border-color: gray;
+    border-left: solid 1px;
+    border-right: solid 1px;
+    padding: 10px;
+}
+
+.progressContainer {
+    padding-top: 20px;
+}
