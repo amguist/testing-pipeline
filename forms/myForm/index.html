@@ -66,6 +66,7 @@
                 $('#onlyDeployRepo').val(data.values.repo);
                 $('#onlyDeployBranch').val(data.values.branch);
 
+                $('#onlyDeployKittFiles').dropdown("destroy");
                 $('#onlyDeployKittFiles').dropdown({values: data.values.kittFiles});
                 for (const kittFile of data.values.kittFiles) {
                     console.log(kittFile)
