@@ -70,9 +70,10 @@
                 $("#onlyDeployKittFiles").dropdown("destroy");
                 $('#onlyDeployKittFiles').dropdown({values: data.values.kittRelationships});
 
+               $('#onlyDeployKittFiles').dropdown({text: data.values.kittRelationships});
+
                 for (const kittRelationship of data.values.kittRelationships) {
                     console.log("Adding value to Dropdown: " + kittRelationship);
-
                 }
             }
 
