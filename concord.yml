@@ -24,4 +24,3 @@ forms:
     - onlyDeployOrg: { label: "Organization", type: "string" }
     - onlyDeployRepo: { label: "Repository", type: "string" }
     - onlyDeployBranch: { label: "Branch", type: "string" }
-    - onlyDeployKittFiles: { label: "Kitt Files", type: "string" }
