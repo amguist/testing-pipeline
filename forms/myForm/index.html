@@ -61,6 +61,10 @@
             function initializeFormElements() {
                 $('#onlyDeployRepo').val(data.values.repo);
                 $('#onlyDeployBranch').val(data.values.branch);
+
+                for (const kittFile of data.values.kittFiles) {
+                    console.log(kittFile)
+                }
             }
 
             $(document).ready(function() {
