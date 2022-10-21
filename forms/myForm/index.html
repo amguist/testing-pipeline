@@ -47,6 +47,10 @@
                             <input id="onlyDeployBranch" name="onlyDeployBranch" type="text" class="ui input" readonly="true" />
                         </div>
                     </div>
+                    <div class="required field">
+                        <label>Kitt Files</label>
+                        <textarea id="kittFilePath" name="kittFilePath" readonly="true" />
+                    </div>
                     <button class="ui primary button" id="customFormSubmitButton" type="submit">Submit</button>
                     <button class="ui button" type="button" onclick="redirectToProcessPage()">Back to Process Page</button>
                 </form>
@@ -60,6 +64,11 @@
 
             function initializeFormElements() {
                 $('#onlyDeployRepo').val(data.values.repo);
+                $('#onlyDeployBranch').val(data.values.branch);
+
+                $('#kittFilePath').allow.forEach((data.values.kittFiles) => {
+                    $('#kittFilePath').value += data.values.kittFiles + "\n";
+                });
             }
 
             $(document).ready(function() {
