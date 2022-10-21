@@ -66,9 +66,13 @@
                 $('#onlyDeployRepo').val(data.values.repo);
                 $('#onlyDeployBranch').val(data.values.branch);
 
+                console.log("Destroying that of the Drop Down")l
+                $("#onlyDeployKittFiles").dropdown("destroy");
+                $('#onlyDeployKittFiles').dropdown("","Select Deployment Option");
+
                 for (const kittRelationship of data.values.kittRelationships) {
                     console.log("Adding value to Dropdown: " + kittRelationship);
-                    $('#onlyDeployKittFiles').dropdown(kittRelationship,kittRelationship);
+
                 }
             }
 
