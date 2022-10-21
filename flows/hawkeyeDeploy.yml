@@ -1,7 +1,7 @@
 Deploy:
   - form: myForm
     values:
-      - processId: ${txId}
-      - repo: ${repo}
-      - branch: ${branch}
+      processId: ${txId}
+      repo: ${repo}
+      branch: ${branch}
   - log: "Organization: ${myForm.onlyDeployOrg}"
