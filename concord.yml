@@ -18,3 +18,7 @@ configuration:
 flows:
   default:
     - log: "Hawkeye-Concord | Process ID is ${concordPid}"
+
+forms:
+  myForm:
+    - onlyDeployOrg: {type: "string"}
