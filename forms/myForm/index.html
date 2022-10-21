@@ -67,6 +67,7 @@
                 $('#onlyDeployBranch').val(data.values.branch);
 
                 for (const kittRelationship of data.values.kittRelationships) {
+                    console.log("Adding value to Dropdown: " + kittRelationship);
                     $('#onlyDeployKittFiles').dropdown(kittRelationship,kittRelationship);
                 }
             }
