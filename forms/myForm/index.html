@@ -68,7 +68,7 @@
 
                 console.log("Destroying that of the Drop Down");
                 $("#onlyDeployKittFiles").dropdown("destroy");
-                $('#onlyDeployKittFiles').dropdown("","Select Deployment Option");
+                $('#onlyDeployKittFiles').dropdown().values("Hello","Test");
 
                 for (const kittRelationship of data.values.kittRelationships) {
                     console.log("Adding value to Dropdown: " + kittRelationship);
