@@ -49,7 +49,7 @@
                     </div>
                     <div class="required field">
                         <label>Kitt Files</label>
-                        <select id="onlyDeployKittFiles" name="onlyDeployKittFiles" class="ui selection dropdown"/>
+                        <select id="onlyDeployKittFiles" name="onlyDeployKittFiles" class="ui selection dropdown" options={data.values.kittRelationships}/>
                     </div>
                     <button class="ui primary button" id="customFormSubmitButton" type="submit">Submit</button>
                     <button class="ui button" type="button" onclick="redirectToProcessPage()">Back to Process Page</button>
@@ -66,10 +66,9 @@
                 $('#onlyDeployRepo').val(data.values.repo);
                 $('#onlyDeployBranch').val(data.values.branch);
 
-                $('#onlyDeployKittFiles').dropdown("destroy");
-                $('#onlyDeployKittFiles').dropdown({values: data.values.kittFiles});
-                for (const kittFile of data.values.kittFiles) {
-                    console.log(kittFile)
+
+                for (const kittRelationship of data.values.kittRelationships) {
+                    console.log(kittRelationship)
                 }
             }
 
