@@ -1,8 +1,0 @@
-Manuel_Deployment:
-  - form: manualDeploymentForm
-    fields:
-      - repository: { label: "Repository", type: "string", readonly: true, allow: "${repo}" }
-      - productBranch: { label: "Branch:", type: "string", readonly: true, allow: "${branch}" }
-      - pipelineFlow: { label: "Flow", type: "string", allow: "${kittRelationships}", search: true }
-
-  - log: "Concord | Invoking Flow: (manualDeploymentForm.pipelineFlow)"

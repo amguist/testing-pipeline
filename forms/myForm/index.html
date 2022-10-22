@@ -67,14 +67,9 @@
                 $('#onlyDeployBranch').val(data.values.branch);
 
                 for (const kittRelationship of data.values.kittRelationships) {
-                    console.log("Adding value to Dropdown: " + kittRelationship);
-                    var option = document.createElement("option");
-                    option.text = kittRelationship;
-                    option.value = kittRelationship;
-                    $('#onlyDeployKittFiles').add(option);
+                    console.log("Adding the following: " + kittRelationship);
+                    $('.ui.dropdown').dropdown('add optionValue',kittRelationship);
                 }
-
-                console.log($('#onlyDeployKittFiles'));
             }
 
             $(document).ready(function() {
