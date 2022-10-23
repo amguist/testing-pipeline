@@ -73,6 +73,13 @@
                 $('.ui.dropdown').dropdown();
 
                 let kittOptions = []
+                let initialOption = {
+                    "name" : 'Initial Option',
+                    "value" : '',
+                    "text" : 'Kitt Files'
+                }
+                kittOptions.push(initialOption);
+
                 for (const kittFile of data.values.kittFiles) {
                     let option = {
                         "name" : kittFile,
@@ -82,7 +89,7 @@
                     kittOptions.push(option);
                 }
                 console.log(kittOptions);
-
+                $('.ui .dropdown').dropdown('replace',kittOptions);
             }
 
             $(document).ready(function() {
