@@ -4,5 +4,5 @@ Deploy:
       processId: ${txId}
       repo: ${repo}
       branch: ${branch}
-      kittRelationships: ${kittRelationships}
+      kittFiles: ${kittFiles}
   - log: "Organization: ${myForm.onlyDeployOrg}"
