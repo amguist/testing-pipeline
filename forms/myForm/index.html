@@ -91,7 +91,8 @@
                 var button = document.getElementById("customFormSubmitButton");
                 button.classList.add("loading");
 
-                var values = $("onlySelectedKittFiles").dropdown("get values");
+                var dropdown = document.getElementById("onlySelectedKittFiles");
+                var values = $dropdown.dropdown("get values");
                 console.log(values);
 
 
