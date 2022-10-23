@@ -51,6 +51,9 @@
                         <label>Kitt Files</label>
                         <select multiple="" class="ui fluid dropdown">
                             <option value="">Kitt Files</option>
+                            <option value="Role1">Role 1</option>
+                            <option value="Role2">Role 2</option>
+                            <option value="Role3">Role 3</option>
                         </select>
                     </div>
                     <button class="ui primary button" id="customFormSubmitButton" type="submit">Submit</button>
@@ -69,11 +72,17 @@
                 $('#onlyDeployBranch').val(data.values.branch);
                 $('.ui.dropdown').dropdown();
 
-                $dropdown = $('.ui.dropdown);
+                let kittOptions = []
                 for (const kittFile of data.values.kittFiles) {
-                    console.log("Adding the following: " + kittFile);
-                    $dropdown.dropdown('Option',kittFile);
+                    let option = {
+                        "name" : kittFile,
+                        "value" : kittFile,
+                        "text" : kittFile
+                    }
+                    kittOptions.push(option);
                 }
+                console.log(kittOptions);
+
             }
 
             $(document).ready(function() {
