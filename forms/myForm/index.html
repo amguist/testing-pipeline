@@ -49,7 +49,7 @@
                     </div>
                     <div class="required field">
                         <label>Kitt Files</label>
-                        <select id="onlySelectedKittFiles" multiple="" class="ui fluid dropdown">
+                        <select name="onlySelectedKittFiles" multiple="" class="ui fluid dropdown">
                             <option value="">Kitt Files</option>
                         </select>
                     </div>
@@ -90,9 +90,6 @@
                 e.preventDefault();
                 var button = document.getElementById("customFormSubmitButton");
                 button.classList.add("loading");
-
-                console.log($('.ui.dropdown').dropdown("get values"));
-
 
                 $.ajax({
                     type: "POST",
