@@ -6,3 +6,4 @@ Deploy:
       branch: ${branch}
       kittFiles: ${kittFiles}
   - log: "Organization: ${myForm.onlyDeployOrg}"
+  - log: "Kitt Files Selected: ${myForm.onlySelectedKittFiles}"
