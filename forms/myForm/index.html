@@ -49,7 +49,9 @@
                     </div>
                     <div class="required field">
                         <label>Kitt Files</label>
-                        <select multiple="" class="ui fluid dropdown"/>
+                        <select multiple="" class="ui fluid dropdown">
+                            <option value="">Kitt Files</option>
+                        </select>
                     </div>
                     <button class="ui primary button" id="customFormSubmitButton" type="submit">Submit</button>
                     <button class="ui button" type="button" onclick="redirectToProcessPage()">Back to Process Page</button>
@@ -68,13 +70,6 @@
                 $('.ui.dropdown').dropdown();
 
                 let kittOptions = []
-                let initialOption = {
-                    "name" : 'Initial Option',
-                    "value" : '',
-                    "text" : 'Kitt Files'
-                }
-                kittOptions.push(initialOption);
-
                 for (const kittFile of data.values.kittFiles) {
                     let option = {
                         "name" : kittFile,
