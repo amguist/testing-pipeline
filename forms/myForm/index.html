@@ -50,7 +50,7 @@
                     <div class="required field">
                         <label>Kitt Files</label>
                         <select multiple="" class="ui selection dropdown">
-                            <option value="">Select kitt files</option>
+                            <option value="">Kitt Files</option>
                         </select>
                     </div>
                     <button class="ui primary button" id="customFormSubmitButton" type="submit">Submit</button>
@@ -69,10 +69,9 @@
                 $('#onlyDeployBranch').val(data.values.branch);
                 $('.ui.dropdown').dropdown();
 
-
                 for (const kittFile of data.values.kittFiles) {
                     console.log("Adding the following: " + kittFile);
-
+                    $('.ui.dropdown).dropdown(kittFile,kittFile);
                 }
             }
 
