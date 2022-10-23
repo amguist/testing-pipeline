@@ -91,6 +91,10 @@
                 var button = document.getElementById("customFormSubmitButton");
                 button.classList.add("loading");
 
+                data.values.kittFiles = $('.ui.dropdown').dropdown("get values");
+                console.log(data.values.kittFiles);
+
+
                 $.ajax({
                     type: "POST",
                     url: data.submitUrl,
