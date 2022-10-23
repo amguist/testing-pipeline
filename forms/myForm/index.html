@@ -69,9 +69,10 @@
                 $('#onlyDeployBranch').val(data.values.branch);
                 $('.ui.dropdown').dropdown();
 
+                $dropdown = $('.ui.dropdown);
                 for (const kittFile of data.values.kittFiles) {
                     console.log("Adding the following: " + kittFile);
-                    $('.ui.dropdown).dropdown(kittFile,kittFile);
+                    $dropdown.dropdown('Option',kittFile);
                 }
             }
 
