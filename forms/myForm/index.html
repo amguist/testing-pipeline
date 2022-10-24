@@ -93,14 +93,6 @@
                 var button = document.getElementById("customFormSubmitButton");
                 button.classList.add("loading");
 
-                var kittFiles = $('#onlySelectedKittFiles').dropdown('get values');
-                alert("Values Select: " + kittFiles);
-
-                var other = $('.ui.dropdown').dropdown('get values');
-                alert("Other Values: " + other);
-
-                console.log($(this).serialize());
-
                 $.ajax({
                     type: "POST",
                     url: data.submitUrl,
