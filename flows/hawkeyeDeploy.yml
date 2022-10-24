@@ -1,9 +1,12 @@
 Deploy:
+  - checkpoint: "Start"
   - form: myForm
     values:
       processId: ${txId}
       repo: ${repo}
       branch: ${branch}
       kittFiles: ${kittFiles}
-  - log: "Organization: ${myForm.onlyDeployOrg}"
-  - log: "Kitt Files Selected: ${myForm.onlySelectedKittFiles}"
+  - log: "Hawkeye Concord | Kitt Files: ${kittFiles}"
+  - log: "Hawkeye Concord | Selected Kitt Files: ${myForm.onlySelectedKittFiles}"
+
+
