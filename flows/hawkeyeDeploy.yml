@@ -5,8 +5,9 @@ Deploy:
       processId: ${txId}
       repo: ${repo}
       branch: ${branch}
+      version: ${version}
       kittFiles: ${kittFiles}
-  - log: "Hawkeye Concord | Kitt Files: ${kittFiles}"
+      kittFilesGraph: ${kittFilesGraph}
   - set:
       kittFiles: ${myForm.onlySelectedKittFiles}
   - log: "Hawkeye Concord | After User Intervention Kitt Files: ${kittFiles}"

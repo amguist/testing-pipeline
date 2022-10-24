@@ -8,6 +8,7 @@ configuration:
     branch: "main"
     commitSHA: ""
     kittFiles: [ "test-env-cloud.yml", "release-3040-cloud.yml", "release-8972-cloud.yml" ]
+    kittFilesGraph: [ ["test-env-cloud.yml", "release-3040-cloud.yml"], [ "test-env-cloud.yml", "release-8972-cloud.yml"], [ "test-env-cloud.yml", "release-3040-cloud.yml", "release-8972-cloud.yml"] ]
     repo: "http://github.com/amguist/test-pipeline"
     baseProfile: { }
     event: ""
@@ -18,28 +19,6 @@ flows:
   default:
     - log: "Hawkeye-Concord | Process ID is ${concordPid}"
 
-  deploy-by-ref:
-    - log: "Hawkeye Concord | deploy-by-ref: ${item}"
-    - if: ${branch.matches(item)}
-      then:
-        - call: deploy-stage
-          in:
-            stageName: ${stageName}
-      else:
-        - log: "Hawkeye Concord | skipping unmatched ref: ${item}"
-
-  deploy-by-stage:
-    - log: "Hawkeye Concord | deploy-by-stage ${item.name} - ${item.refs}"
-    - set:
-        stageName: ${stageName}
-    - call: deploy-by-ref
-      in:
-        stageName: ${stageName}
-      withItems: ${item.refs}
-
 forms:
   myForm:
-    - onlyDeployOrg: { label: "Organization", type: "string" }
-    - onlyDeployRepo: { label: "Repository", type: "string" }
-    - onlyDeployBranch: { label: "Branch", type: "string" }
     - onlySelectedKittFiles: { label: "Kitt Files", type: "string*" }
