@@ -7,6 +7,8 @@ Deploy:
       branch: ${branch}
       kittFiles: ${kittFiles}
   - log: "Hawkeye Concord | Kitt Files: ${kittFiles}"
-  - log: "Hawkeye Concord | Selected Kitt Files: ${myForm.onlySelectedKittFiles}"
+  - set:
+      kittFiles: ${myForm.onlySelectedKittFiles}
+  - log: "Hawkeye Concord | After User Intervention Kitt Files: ${kittFiles}"
 
 
