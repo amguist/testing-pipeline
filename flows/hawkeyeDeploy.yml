@@ -14,7 +14,7 @@ deploy:
           version: ${version}
           kittFilesGraph: ${kittFilesGraph}
       - set:
-          kittFiles: ${myForm.onlySelectedKittFiles}
+          kittFiles: ${deploymentForm.onlySelectedKittFiles}
       - call: processEvent
     else:
       - call: processEvent
