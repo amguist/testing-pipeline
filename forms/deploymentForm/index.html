@@ -69,10 +69,32 @@
                 </div>
             </div>
             <br/>
-            <button class="ui primary button" id="customFormSubmitButton" type="submit">Submit</button>
+            <button id="customFormSubmitButton" class="ui primary button" type="button" onclick="submit()">Submit</button>
             <button class="ui button" type="button" onclick="redirectToProcessPage()">Back to Process Page</button>
         </div>
         <script type="text/javascript">
+
+            function submit() {
+                var button = document.getElementById("customFormSubmitButton");
+                button.classList.add("loading");
+
+                $.ajax({
+                    type: "POST",
+                    url: data.submitUrl,
+                    data: $(this).serialize(),
+                    success: function(data) {
+                        button.classList.remove("loading");
+                        redirectToProcessPage();
+                    },
+                    error: function(data) {
+                        alert("Error in post - check browser console for details!");
+                        console.log("ERROR: ");
+                        console.log(data);
+                        button.classList.remove("loading");
+                    }
+                });
+            }
+
             function redirectToProcessPage() {
                 window.location.replace("http://localhost:8001/#/process/" + data.values.processId + "/status");
             }
