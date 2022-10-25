@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
     <head>
         <title>Deploy Form</title>
         <script src="data.js"></script>
@@ -26,52 +26,53 @@
                     </div>
                 </div>
             </div>
-            <div id="deploymentForm" class="ui two column stackable grid">
-                <div class="three column row">
-                    <div class="column">
-                        <label><b>Organization</b></label>
-                        <div id="onlyDeployOrg" name="onlyDeployOrg" class="ui segment">
-                            Hawkeye
+            <form id="deploymentForm" class="ui form">
+                <div class="ui two column stackable grid">
+                    <div class="three column row">
+                        <div class="column">
+                            <label><b>Organization</b></label>
+                            <div id="onlyDeployOrg" name="onlyDeployOrg" class="ui segment">
+                                Hawkeye
+                            </div>
+                        </div>
+                        <div class="column">
+                            <label><b>Repository</b></label>
+                            <div id="onlyDeployRepo" name="onlyDeployRepo" class="ui segment">
+
+                            </div>
+                        </div>
+                        <div class="column">
+                            <label><b>Branch</b></label>
+                            <div id="onlyDeployBranch" name="onlyDeployBranch" class="ui segment">
+
+                            </div>
                         </div>
                     </div>
                     <div class="column">
-                        <label><b>Repository</b></label>
-                        <div id="onlyDeployRepo" name="onlyDeployRepo" class="ui segment">
+                        <label><b>Concord Process Identifier</b></label>
+                        <div id="onlyDeployProcessId" name="onlyDeployProcessId" class="ui segment">
 
                         </div>
                     </div>
                     <div class="column">
-                        <label><b>Branch</b></label>
-                        <div id="onlyDeployBranch" name="onlyDeployBranch" class="ui segment">
+                        <label><b>Version</b></label>
+                        <div id="onlyDeployVersion" name="onlyDeployVersion" class="ui segment">
 
                         </div>
                     </div>
-                </div>
-                <div class="column">
-                    <label><b>Concord Process Identifier</b></label>
-                    <div id="onlyDeployProcessId" name="onlyDeployProcessId" class="ui segment">
-
+                    <div class="column">
+                        <label><b>Kitt Files</b></label>
+                        <div id="onlySelectedKittFiles" class="ui fluid selection search dropdown">
+                            <input name="onlySelectedKittFiles" type="hidden">
+                            <div class="default text">Kitt Deployments ...</div>
+                            <i class="dropdown icon"></i>
+                        </div>
                     </div>
                 </div>
-                <div class="column">
-                    <label><b>Version</b></label>
-                    <div id="onlyDeployVersion" name="onlyDeployVersion" class="ui segment">
-
-                    </div>
-                </div>
-                <div class="column">
-                    <label><b>Kitt Files</b></label>
-                    <div id="onlySelectedKittFiles" class="ui fluid selection search dropdown">
-                        <input name="onlySelectedKittFiles" type="hidden">
-                        <div class="default text">Kitt Deployments ...</div>
-                        <i class="dropdown icon"></i>
-                    </div>
-                </div>
-            </div>
-            <br/>
-            <button id="customFormSubmitButton" class="ui primary button" type="button" onclick="submit()">Submit</button>
-            <button class="ui button" type="button" onclick="redirectToProcessPage()">Back to Process Page</button>
-        </div>
+                <br/>
+                <button id="customFormSubmitButton" class="ui primary button" type="submit">Submit</button>
+                <button class="ui button" type="button" onclick="redirectToProcessPage()">Back to Process Page</button>
+            </form>
         <script type="text/javascript">
 
             function submit() {
@@ -129,6 +130,8 @@
                 e.preventDefault();
                 var button = document.getElementById("customFormSubmitButton");
                 button.classList.add("loading");
+
+                alert("Hello There");
 
                 $.ajax({
                     type: "POST",
