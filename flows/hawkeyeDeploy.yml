@@ -30,16 +30,3 @@ processEvent:
 
 onFailure:
   - log: "Hawkeye Concord | Pipeline failed to complete"
-
-Deploy:
-  - form: myForm
-    values:
-      processId: ${txId}
-      repo: ${repo}
-      branch: ${branch}
-      version: ${version}
-      kittFiles: ${kittFiles}
-      kittFilesGraph: ${kittFilesGraph}
-  - set:
-      kittFiles: ${myForm.onlySelectedKittFiles}
-  - log: "Hawkeye Concord | After User Intervention Kitt Files: ${kittFiles}"
