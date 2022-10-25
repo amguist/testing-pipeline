@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <div class="ui two column stackable grid">
+            <div id="deploymentForm" class="ui two column stackable grid">
                 <div class="three column row">
                     <div class="column">
                         <label><b>Organization</b></label>
@@ -83,12 +83,47 @@
 
             function initializeFormElements() {
                 // Set Values On Form Based On What's Being Supplied By Concord Process
-                document.getElementById("onlyDeployRepo").innerHTML=`${data.values.repo}`
-                document.getElementById("onlyDeployBranch").innerHTML="Testing";
-                document.getElementById("onlyDeployProcessId").innerHTML="Testing";
-                document.getElementById("onlyDeployVersion").innerHTML="1.0";
+                document.getElementById("onlyDeployRepo").innerHTML=`${data.values.repo}`;
+                document.getElementById("onlyDeployBranch").innerHTML=`${data.values.branch}`;
+                document.getElementById("onlyDeployProcessId").innerHTML=`${data.values.processId}`;
+                document.getElementById("onlyDeployVersion").innerHTML=`${data.values.version}`;
+
+                // Go ahead and loop through the kitt files graph in order to assign values to that
+                // of the dropdown
+                $('.ui.dropdown').dropdown();
+                let kittOptions = []
+                for (const kittGraph of data.values.kittFilesGraph) {
+                    let option = {
+                        "name" : kittFile,
+                        "value" : kittFile,
+                        "text" : kittFile
+                    }
+                    kittOptions.push(option);
+                }
+                $('.ui.dropdown').dropdown({values: kittOptions});
             }
 
+            $("#deploymentForm").submit(function(e) {
+                e.preventDefault();
+                var button = document.getElementById("customFormSubmitButton");
+                button.classList.add("loading");
+
+                $.ajax({
+                    type: "POST",
+                    url: data.submitUrl,
+                    data: $(this).serialize(),
+                    success: function(data) {
+                        button.classList.remove("loading");
+                        redirectToProcessPage();
+                    },
+                    error: function(data) {
+                        alert("Error in post - check browser console for details!");
+                        console.log("ERROR: ");
+                        console.log(data);
+                        button.classList.remove("loading");
+                    }
+                });
+            });
         </script>
     </body>
 </html>
