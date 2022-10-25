@@ -20,5 +20,5 @@ flows:
     - log: "Hawkeye-Concord | Process ID is ${concordPid}"
 
 forms:
-  myForm:
+  deploymentForm:
     - onlySelectedKittFiles: { label: "Kitt Files", type: "string*" }
