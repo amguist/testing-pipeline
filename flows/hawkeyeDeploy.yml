@@ -43,9 +43,3 @@ Deploy:
   - set:
       kittFiles: ${myForm.onlySelectedKittFiles}
   - log: "Hawkeye Concord | After User Intervention Kitt Files: ${kittFiles}"
-
-
-deploy-v2:
-
-
-
