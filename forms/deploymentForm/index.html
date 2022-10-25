@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Deploy Form</title>
+        <script src="data.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="../shared/semantic-UI/semantic.min.js"></script>
+        <link rel="stylesheet" href="../shared/semantic-UI/semantic.min.css" />
+        <link rel="stylesheet" href="../shared/dat-common.css" />
+    </head>
+    <body>
+        <div id="root">
+            <div class="ui centered grid">
+                <div class="sixteen wide column topBar">
+                    <div class="ui centered grid dat-page-header">
+                        <div class="fourteen wide column topBarColumn">
+                            <div class="ui small fluid inverted secondary menu">
+                                <div class="item">
+                                    <img id="concordLogo" src="../shared/logo.png" class="ui small image"/>
+                                </div>
+                                <div class="right vertically fitted item">
+                                    <span>Powered by Hawkeye</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui two column stackable grid">
+                <div class="three column row">
+                    <div class="column">
+                        <label><b>Organization</b></label>
+                        <div id="onlyDeployOrg" name="onlyDeployOrg" class="ui segment">
+                            Hawkeye
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label><b>Repository</b></label>
+                        <div id="onlyDeployRepo" name="onlyDeployRepo" class="ui segment">
+
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label><b>Branch</b></label>
+                        <div id="onlyDeployBranch" name="onlyDeployBranch" class="ui segment">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <label><b>Concord Process Identifier</b></label>
+                    <div id="onlyDeployProcessId" name="onlyDeployProcessId" class="ui segment">
+
+                    </div>
+                </div>
+                <div class="column">
+                    <label><b>Version</b></label>
+                    <div id="onlyDeployVersion" name="onlyDeployVersion" class="ui segment">
+
+                    </div>
+                </div>
+                <div class="column">
+                    <label><b>Kitt Files</b></label>
+                    <div id="onlySelectedKittFiles" class="ui fluid selection search dropdown">
+                        <input name="onlySelectedKittFiles" type="hidden">
+                        <div class="default text">Kitt Deployments ...</div>
+                        <i class="dropdown icon"></i>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <button class="ui primary button" id="customFormSubmitButton" type="submit">Submit</button>
+            <button class="ui button" type="button" onclick="redirectToProcessPage()">Back to Process Page</button>
+        </div>
+        <script type="text/javascript">
+            function redirectToProcessPage() {
+                window.location.replace("http://localhost:8001/#/process/" + data.values.processId + "/status");
+            }
+
+            $(document).ready(function() {
+               initializeFormElements();
+            });
+
+            function initializeFormElements() {
+                // Set Values On Form Based On What's Being Supplied By Concord Process
+                document.getElementById("onlyDeployRepo").innerHTML="Testing";
+                document.getElementById("onlyDeployBranch").innerHTML="Testing";
+                document.getElementById("onlyDeployProcessId").innerHTML="Testing";
+                document.getElementById("onlyDeployVersion").innerHTML="1.0";
+            }
+
+        </script>
+    </body>
+</html>

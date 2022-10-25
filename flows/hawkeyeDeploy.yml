@@ -1,5 +1,37 @@
-Deploy:
+deploy:
+  - log: "Hawkeye Concord | !!! GITHUB EVENT !!! ${event}"
   - checkpoint: "Start"
+  - expr: ${kittFilesGraph.size()}
+    out: graphSize
+  - if: ${graphSize > 0}
+    then:
+      - log: "Hawkeye Concord | Launching Processing Form, deploymentForm"
+      - form: deploymentForm
+        values:
+          processId: ${txId}
+          repo: ${repo}
+          branch: ${branch}
+          version: ${version}
+          kittFilesGraph: ${kittFilesGraph}
+      - set:
+          kittFiles: ${myForm.onlySelectedKittFiles}
+      - call: processEvent
+    else:
+      - call: processEvent
+
+
+processEvent:
+  - if: ${event != "push"} # The event could be either 'push' or 'pr'.  For actual deployments we only want non 'pr' stages
+    then:
+      # iterate through the list of kitt.deploy.stages
+        - log: "Hawkeye-Concord | Deploying non PR stages"
+    else:
+      - log: "Hawkeye-Concord | Deploying PR stage"
+
+onFailure:
+  - log: "Hawkeye Concord | Pipeline failed to complete"
+
+Deploy:
   - form: myForm
     values:
       processId: ${txId}
@@ -11,5 +43,9 @@ Deploy:
   - set:
       kittFiles: ${myForm.onlySelectedKittFiles}
   - log: "Hawkeye Concord | After User Intervention Kitt Files: ${kittFiles}"
+
+
+deploy-v2:
+
 
 
