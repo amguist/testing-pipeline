@@ -15,7 +15,10 @@ deploy:
           kittFilesGraph: ${kittFilesGraph}
       - set:
           kittFiles: ${deploymentForm.onlySelectedKittFiles}
-      - call: processEvent
+      - log: "Filtering already deployed environments .."
+      - expr: ${kittFiles.stream().count()}
+        out: totalRecords
+      - log: "Total kittFiles to process: ${totalRecords}"
     else:
       - call: processEvent
 
