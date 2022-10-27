@@ -75,27 +75,6 @@
             </form>
         <script type="text/javascript">
 
-            function submit() {
-                var button = document.getElementById("customFormSubmitButton");
-                button.classList.add("loading");
-
-                $.ajax({
-                    type: "POST",
-                    url: data.submitUrl,
-                    data: $(this).serialize(),
-                    success: function(data) {
-                        button.classList.remove("loading");
-                        redirectToProcessPage();
-                    },
-                    error: function(data) {
-                        alert("Error in post - check browser console for details!");
-                        console.log("ERROR: ");
-                        console.log(data);
-                        button.classList.remove("loading");
-                    }
-                });
-            }
-
             function redirectToProcessPage() {
                 window.location.replace("http://localhost:8001/#/process/" + data.values.processId + "/status");
             }
@@ -130,8 +109,6 @@
                 e.preventDefault();
                 var button = document.getElementById("customFormSubmitButton");
                 button.classList.add("loading");
-
-                alert("Hello There");
 
                 $.ajax({
                     type: "POST",

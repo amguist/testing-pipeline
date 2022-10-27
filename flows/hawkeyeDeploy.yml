@@ -15,7 +15,7 @@ deploy:
           kittFilesGraph: ${kittFilesGraph}
       - set:
           kittFiles: ${deploymentForm.onlySelectedKittFiles}
-      - log: "Filtering already deployed environments .."
+      - log: "Filtering already deployed environments .. ${kittFiles}"
       - expr: ${kittFiles.stream().filter(string -> !kittCompletedDeployment.contains(string)).toList().size()}
         out: totalRecords
       - log: "Total kittFiles to process: ${totalRecords}"
