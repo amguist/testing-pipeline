@@ -16,7 +16,7 @@ deploy:
       - set:
           kittFiles: ${deploymentForm.onlySelectedKittFiles}
       - log: "Filtering already deployed environments .. ${kittFiles}"
-      - expr: ${kittCompletedDeployment.stream().filter(completed -> kittFiles.contains(completed)).toList()}
+      - expr: ${kittFiles.stream().flapMap(deploymentArray -> deploymentArray.stream()).filter(value -> !kittCompletedDeployment.contain(value)).toList()}
         out: filteredRecords
       - log: "Total kittFiles to process: ${filteredRecords}"
     else:
