@@ -16,9 +16,9 @@ deploy:
       - set:
           kittFiles: ${deploymentForm.onlySelectedKittFiles}
       - log: "Filtering already deployed environments .. ${kittFiles}"
-      - expr: ${kittFiles.stream().filter(string -> !kittCompletedDeployment.contains(string)).toList().size()}
-        out: totalRecords
-      - log: "Total kittFiles to process: ${totalRecords}"
+      - expr: ${kittCompletedDeployment.stream.filter(completed -> kittFiles.contains(completed)).toList()}
+        out: filteredRecords
+      - log: "Total kittFiles to process: ${filteredRecords}"
     else:
       - call: processEvent
 
