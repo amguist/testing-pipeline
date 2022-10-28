@@ -15,10 +15,10 @@ deploy:
           kittFilesGraph: ${kittFilesGraph}
       - set:
           selectedKittFiles: ${deploymentForm.onlySelectedKittFiles}
-      - log: "Filtering already deployed environments .. ${selectedKittFiles}"
-      - expr: ${selectedKittFiles.stream().map(string -> string.split(",")).toList().size()}
-        out: otherValue
-      - log: "${outValue}"
+      - if: ${kittFiles.contains(kittCompletedDeployment)}
+        then:
+          - log: "Some Entries have been already deployed"
+
       - call: kitt-deploy
         withItems: ${kittFiles}
     else:
