@@ -110,6 +110,9 @@
                 var button = document.getElementById("customFormSubmitButton");
                 button.classList.add("loading");
 
+                var selectedKittFiles = document.getElementById("onlySelectedKittFiles");
+                alert(selectedKittFiles);
+
                 $.ajax({
                     type: "POST",
                     url: data.submitUrl,
