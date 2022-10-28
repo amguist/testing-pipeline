@@ -17,7 +17,7 @@ deploy:
           selectedKittFiles: ${deploymentForm.onlySelectedKittFiles}
       - log: "Values from original KittFiles Collection: ${kittFiles}"
       - log: "Values returned from form are as follows: ${selectedKittFiles}"
-      - expr: ${selectedKittFiles.stream().map(str -> str.split(",").stream()).map(value -> value.stringValue).toList().size()}
+      - expr: ${selectedKittFiles.stream().flatMap(str -> str.split(",").stream()).toList()}
         out: selectedKittFileSize
       - log: "The Total Size Of Selected Kitt Files is: ${selectedKittFileSize}"
       - call: kitt-deploy
