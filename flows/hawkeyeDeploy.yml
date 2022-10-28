@@ -36,11 +36,19 @@ deploy:
 
 kitt-deploy:
   - log: "Hawkeye-Concord | Reading Contents of the kitt file ${item}"
+  - set:
+      deploymentSpecs:
+        stage: ${stageRefs[0]}
+        kittFile: ${item}
+
   - expr: ${kittCompletedDeployment.stream().filter(str -> !str.startsWith(item)).toList().size()}
     out: validFiles
   - if: ${validFiles <= 0}
     then:
       - log: "All files for ${item} have been successfully deployed already.  Skipping ... "
+    else:
+      - set:
+          kittCompletedDeployment: ${kittCompletedDeployment.add(deploymentSpecs)}
 
 processEvent:
   - if: ${event != "push"} # The event could be either 'push' or 'pr'.  For actual deployments we only want non 'pr' stages
