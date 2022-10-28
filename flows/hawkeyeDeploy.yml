@@ -18,10 +18,13 @@ deploy:
       - log: "Filtering already deployed environments .. ${kittFiles}"
       - expr: ${deploymentForm.onlySelectedKittFiles.stream().map(s -> s.split(",")).toList()}
         out: updatedList
-
+      - call: kitt-deploy
+        withItems: ${updatedList}
     else:
       - call: processEvent
 
+kitt-deploy:
+  - log: "Hawkeye-Concord | Reading Contents of the kitt file ${item}"
 
 processEvent:
   - if: ${event != "push"} # The event could be either 'push' or 'pr'.  For actual deployments we only want non 'pr' stages
