@@ -15,8 +15,9 @@ deploy:
           kittFilesGraph: ${kittFilesGraph}
       - set:
           selectedKittFiles: ${deploymentForm.onlySelectedKittFiles}
+      - log: "Values from original KittFiles Collection: ${kittFiles}"
       - log: "Values returned from form are as follows: ${selectedKittFiles}"
-      
+
       - call: kitt-deploy
         withItems: ${kittFiles}
     else:
