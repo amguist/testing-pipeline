@@ -20,7 +20,7 @@ deploy:
         out: selectedKittFiles
       - log: "The Total Size Of Selected Kitt Files is: ${selectedKittFiles}"
       - call: kitt-deploy
-        withItems: ${kittFiles}
+        withItems: ${selectedKittFiles}
     else:
       - call: processEvent
 
