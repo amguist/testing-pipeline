@@ -13,10 +13,8 @@ deploy:
           branch: ${branch}
           version: ${version}
           kittFilesGraph: ${kittFilesGraph}
-      - set:
-          selectedKittFiles: ${deploymentForm.onlySelectedKittFiles}
       - log: "Values from original KittFiles Collection: ${kittFiles}"
-      - expr: ${selectedKittFiles.stream().flatMap(str -> str.split(",").stream()).toList()}
+      - expr: ${deploymentForm.onlySelectedKittFiles.stream().flatMap(str -> str.split(",").stream()).toList()}
         out: selectedKittFiles
       - log: "The Total Size Of Selected Kitt Files is: ${selectedKittFiles}"
       - call: kitt-deploy

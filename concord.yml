@@ -14,7 +14,7 @@ configuration:
     baseProfile: { }
     event: ""
     channelName: "hawkeye-kitt"
-    stages: [ ]
+    stages: [ "dev" ]
 
 flows:
   default:
