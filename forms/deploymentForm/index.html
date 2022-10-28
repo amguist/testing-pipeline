@@ -110,12 +110,6 @@
                 var button = document.getElementById("customFormSubmitButton");
                 button.classList.add("loading");
 
-                let selection = $('.ui.dropdown').dropdown("get value");
-                const myArray = selection.split(",");
-                data.values.onlySelectedKittFiles = myArray;
-
-                console.log($(this).serialize());
-
                 $.ajax({
                     type: "POST",
                     url: data.submitUrl,
