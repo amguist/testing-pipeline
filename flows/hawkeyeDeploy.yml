@@ -24,13 +24,14 @@ deploy:
           - log: "Initial Value Of Test List: ${selectedKittFiles}"
           - set:
               testFiles: ${selectedKittFiles.add("Hello")}
-          - log: "New List is now equal to ${testFiles}"
 
       - log: "The Total Size Of Selected Kitt Files is: ${selectedKittFiles}"
       - call: kitt-deploy
         withItems: ${selectedKittFiles}
         in:
           stageRefs: [ "dev" ]
+
+      - log: "Current value of completed processes: ${kittCompletedDeployment}"
     else:
       - call: processEvent
 
@@ -41,9 +42,9 @@ kitt-deploy:
         stage: ${stageRefs[0]}
         kittFile: ${item}
 
-  - expr: ${kittCompletedDeployment.stream().filter(str -> !str.startsWith(item)).toList().size()}
-    out: validFiles
-  - if: ${validFiles <= 0}
+  - expr: ${kittCompletedDeployment.stream().filter(str -> str.startsWith(item)).toList().size()}
+    out: inValidFiles
+  - if: ${inValidFiles > 0}
     then:
       - log: "All files for ${item} have been successfully deployed already.  Skipping ... "
     else:
