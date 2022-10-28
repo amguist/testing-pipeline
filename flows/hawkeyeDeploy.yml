@@ -22,7 +22,7 @@ deploy:
       - if: ${testListSize > 0}
         then:
           - log: "Initial Value Of Test List: ${selectedKittFiles}"
-          - expr: ${selectedKittFiles.stream().toList().add("Hello")};
+          - expr: ${selectedKittFiles.stream().toList().add("Hello")}
             out: newList
           - log: "New List is now equal to ${newList}"
 
