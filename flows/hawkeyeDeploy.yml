@@ -16,9 +16,9 @@ deploy:
       - set:
           kittFiles: ${deploymentForm.onlySelectedKittFiles}
       - log: "Filtering already deployed environments .. ${kittFiles}"
-      - expr: ${deploymentForm.onlySelectedKittFiles.stream().map(s -> s.split(",").toList()}
+      - expr: ${deploymentForm.onlySelectedKittFiles.stream().map(s -> s.split(",")).toList()}
         out: updatedList
-      
+
     else:
       - call: processEvent
 
