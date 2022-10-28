@@ -110,6 +110,8 @@
                 var button = document.getElementById("customFormSubmitButton");
                 button.classList.add("loading");
 
+                console.log($('.ui.dropdown').dropdown("get value"));
+
                 $.ajax({
                     type: "POST",
                     url: data.submitUrl,
