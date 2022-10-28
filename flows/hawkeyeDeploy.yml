@@ -18,10 +18,13 @@ deploy:
         out: selectedKittFiles
       - set:
           testList: ${selectedKittFiles}
-      - if: ${testList.size > 0}
+
+      - expr: ${testList.stream().toList().size()}
+        out: testListSize
+      - if: ${testListSize > 0}
         then:
           - log: "Initial Value Of Test List: ${testList}"
-            - 
+            -
       - log: "The Total Size Of Selected Kitt Files is: ${selectedKittFiles}"
       - call: kitt-deploy
         withItems: ${selectedKittFiles}
