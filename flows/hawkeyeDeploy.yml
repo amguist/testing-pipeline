@@ -23,8 +23,8 @@ deploy:
         then:
           - log: "Initial Value Of Test List: ${selectedKittFiles}"
           - set:
-            testFiles: "${selectedKittFiles.add('Hello')}"
-          - log: "New List is now equal to ${selectedKittFiles}"
+              testFiles: ${selectedKittFiles.add("Hello")}
+          - log: "New List is now equal to ${testFiles}"
 
       - log: "The Total Size Of Selected Kitt Files is: ${selectedKittFiles}"
       - call: kitt-deploy
