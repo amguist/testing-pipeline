@@ -16,7 +16,7 @@ deploy:
       - set:
           selectedKittFiles: ${deploymentForm.onlySelectedKittFiles}
       - log: "Filtering already deployed environments .. ${selectedKittFiles}"
-      - expr: ${selectedKittFiles.stream().map(entry -> entry.split(',')).toList()}
+      - expr: ${Arrays.stream(selectedKittFiles.split("\\,")).map(str -> str.trim()).toList()}
         out: otherValue
       - call: kitt-deploy
         withItems: ${otherValue}
