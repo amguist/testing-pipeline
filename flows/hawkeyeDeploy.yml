@@ -18,8 +18,9 @@ deploy:
       - log: "Filtering already deployed environments .. ${selectedKittFiles}"
       - expr: ${selectedKittFiles.stream().map(string -> string.split(",")).toList().size()}
         out: otherValue
+      - log: "${outValue}"
       - call: kitt-deploy
-        withItems: ${otherValue}
+        withItems: ${kittFiles}
     else:
       - call: processEvent
 
