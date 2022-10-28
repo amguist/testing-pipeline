@@ -21,7 +21,7 @@ deploy:
         out: testListSize
       - if: ${testListSize > 0}
         then:
-          - log: "Initial Value Of Test List: ${testList}"
+          - log: "Initial Value Of Test List: ${selectedKittFiles}"
 
       - log: "The Total Size Of Selected Kitt Files is: ${selectedKittFiles}"
       - call: kitt-deploy
