@@ -14,12 +14,10 @@ deploy:
           version: ${version}
           kittFilesGraph: ${kittFilesGraph}
       - set:
-          kittFiles: ${deploymentForm.onlySelectedKittFiles}
-      - log: "Filtering already deployed environments .. ${kittFiles}"
-      - expr: ${deploymentForm.onlySelectedKittFiles.stream().map(s -> s.split(",")).toList()}
-        out: updatedList
+          selectedKittFiles: ${deploymentForm.onlySelectedKittFiles}
+      - log: "Filtering already deployed environments .. ${selectedKittFiles}"
       - call: kitt-deploy
-        withItems: ${updatedList}
+        withItems: ${kittFiles}
     else:
       - call: processEvent
 
