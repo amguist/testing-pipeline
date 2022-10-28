@@ -23,7 +23,7 @@ deploy:
         then:
           - log: "Initial Value Of Test List: ${selectedKittFiles}"
           - parallel:
-              - ${selectedKittFiles.aList.add("Hello")}
+              - ${selectedKittFiles.add("Hello")}
           - log: "New List is now equal to ${selectedKittFiles}"
 
       - log: "The Total Size Of Selected Kitt Files is: ${selectedKittFiles}"
