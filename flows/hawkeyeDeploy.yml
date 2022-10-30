@@ -1,6 +1,8 @@
 deploy:
   - log: "Hawkeye Concord | !!! GITHUB EVENT !!! ${event}"
   - checkpoint: "Start"
+  - log: "Value of Completed Files/Stages: ${kittCompletedDeployment}"
+
   - expr: ${kittFilesGraph.size()}
     out: graphSize
   - if: ${graphSize > 0}
