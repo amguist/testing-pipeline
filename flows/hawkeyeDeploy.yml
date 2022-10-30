@@ -29,7 +29,3 @@ kitt-deploy:
         stage: ${stageRefs[0]}
         kittFile: ${item}
       deployments: [ ]
-
-
-  - ${deployments.add(${deploymentSpecs})}
-  - log: "Value of Kitt Deployment: ${deploymentSpecs.stage}"
