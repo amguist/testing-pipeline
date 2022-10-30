@@ -31,3 +31,4 @@ kitt-deploy:
       deployments: [ ]
 
   - ${deployments.add(deploymentSpecs)}
+  - ${kittCompletedDeployment.addAll(deployments)}
