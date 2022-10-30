@@ -29,7 +29,5 @@ kitt-deploy:
       deploymentSpecs:
         stage: ${stageRefs[0]}
         kittFile: ${item}
-      deployments: [ ]
 
-  - ${deployments.add(deploymentSpecs)}
-  - ${kittCompletedDeployment.addAll(deployments)}
+  - ${kittCompletedDeployment.add(deploymentSpecs)}
