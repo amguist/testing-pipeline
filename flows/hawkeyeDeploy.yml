@@ -42,8 +42,8 @@ kitt-deploy:
         stage: ${stageRefs[0]}
         kittFile: ${item}
 
-  - set:
-      kittCompletedDeployment: ${kittCompletedDeployment.add(deploymentSpecs)}
+  - log: "Value of Kitt Deployment: ${deploymentSpecs.stage}"
+
 
 processEvent:
   - if: ${event != "push"} # The event could be either 'push' or 'pr'.  For actual deployments we only want non 'pr' stages
