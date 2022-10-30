@@ -30,4 +30,4 @@ kitt-deploy:
         kittFile: ${item}
       deployments: [ ]
 
-  - ${deployments.add($deploymentSpecs)}
+  - ${deployments.add(deploymentSpecs)}
