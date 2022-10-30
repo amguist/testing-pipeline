@@ -21,6 +21,7 @@ deploy:
         withItems: ${selectedKittFiles}
         in:
           stageRefs: [ "dev" ]
+      - log: "Completed Files/Stages : ${kittCompletedDeployment}"
 
 kitt-deploy:
   - log: "Hawkeye-Concord | Reading Contents of the kitt file ${item}"
