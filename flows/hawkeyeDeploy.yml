@@ -22,7 +22,6 @@ deploy:
         in:
           stageRefs: [ "dev" ]
       - log: "Completed Files/Stages : ${kittCompletedDeployment}"
-      - log: "Job Information: ${job}"
 
 kitt-deploy:
   - log: "Hawkeye-Concord | Reading Contents of the kitt file ${item}"
