@@ -17,23 +17,10 @@ deploy:
       - expr: ${deploymentForm.onlySelectedKittFiles.stream().flatMap(str -> str.split(",").stream()).toList()}
         out: selectedKittFiles
 
-      - expr: ${selectedKittFiles.stream().toList().size()}
-        out: testListSize
-      - if: ${testListSize > 0}
-        then:
-          - log: "Initial Value Of Test List: ${selectedKittFiles}"
-          - set:
-              testFiles: ${selectedKittFiles.add("Hello")}
-
-      - log: "The Total Size Of Selected Kitt Files is: ${selectedKittFiles}"
       - call: kitt-deploy
         withItems: ${selectedKittFiles}
         in:
           stageRefs: [ "dev" ]
-
-      - log: "Current value of completed processes: ${kittCompletedDeployment}"
-    else:
-      - call: processEvent
 
 kitt-deploy:
   - log: "Hawkeye-Concord | Reading Contents of the kitt file ${item}"
@@ -41,17 +28,8 @@ kitt-deploy:
       deploymentSpecs:
         stage: ${stageRefs[0]}
         kittFile: ${item}
+      deployments: [ ]
 
+
+  - ${deployments.add(${deploymentSpecs})}
   - log: "Value of Kitt Deployment: ${deploymentSpecs.stage}"
-
-
-processEvent:
-  - if: ${event != "push"} # The event could be either 'push' or 'pr'.  For actual deployments we only want non 'pr' stages
-    then:
-      # iterate through the list of kitt.deploy.stages
-        - log: "Hawkeye-Concord | Deploying non PR stages"
-    else:
-      - log: "Hawkeye-Concord | Deploying PR stage"
-
-onFailure:
-  - log: "Hawkeye Concord | Pipeline failed to complete"
