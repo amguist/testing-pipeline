@@ -102,7 +102,7 @@ flows:
         - call: deploy-by-stage
           withItems: ${itemsByStage}
         - log: "Hawkeye Concord | Final Deployed Details: ${kittCompletedDeployments}"
-        - log: "Hawkeye Concord | Meta Variable Details: ${kittCompleted}"
+        - log: ${resource.writeAsJson(kittCompletedDeployments)}
 
   onFailure:
     - log: "Hawkeye Concord | Pipeline failed to complete"
