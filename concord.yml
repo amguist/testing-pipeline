@@ -94,7 +94,7 @@ flows:
       then:
         - log: "Hawkeye Concord | Deploying non PR stages"
         - set:
-            itemsByStage: $stages
+            itemsByStage: ${resource.asJson(resource.writeAsString(stages))}
         - call: deploy-by-stage
           withItems: ${itemsByStage}
 
