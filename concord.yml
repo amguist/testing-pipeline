@@ -12,10 +12,11 @@ configuration:
     organization: "Hawkeye"
     kittFilesGraph: [ ["test-env-cloud.yml" ], ["test-env-cloud.yml", "release-3040-cloud.yml"], [ "test-env-cloud.yml", "release-8972-cloud.yml"], [ "test-env-cloud.yml", "release-3040-cloud.yml", "release-8972-cloud.yml"] ]
     kittCompletedDeployments: [ ]
-    repo: "http://github.com/amguist/test-pipeline"
+    repo: "test-pipeline"
     baseProfile: { }
     event: "push"
     channelName: "hawkeye-kitt"
+    storeName: "${repo}-${version}"
     useFormDeploymentFlow: false
 
 forms:
@@ -66,9 +67,24 @@ flows:
         stageName: ${stageName}
       withItems: ${item.refs}
 
+  retrieve_json_store_values:
+    - log: "Hawkeye Concord | retrieving store values based on version: ${item}"
+    - set:
+        storeName: "${repo}-${version}"
+    - expr: ${jsonStore.get(storeName, kittCompletedDeployments)}
+      out: item
+
   deploy:
     - log: "Hawkeye Concord | !!! GITHUB EVENT !!! ${event}"
+    - log: "Hawkeye Concord | Store Name: ${storeName}"
     - checkpoint: "Start"
+    - expr: ${jsonStore.isStoreExists(storeName)}
+      out: storeExists
+    - if: ${storeExists}
+      then:
+        call: retreive_json_store_values
+        in:
+          version: ${version}
     - expr: ${kittFilesGraph.size()}
       out: graphSize
     - if: ${graphSize > 0}
