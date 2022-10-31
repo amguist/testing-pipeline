@@ -89,7 +89,7 @@ flows:
           out: selectedKittFiles
         - set:
             kittFiles: ${selectedKittFiles}
-        - log: "Complete Kitt File Details: ${kittCompletedDeployments}"
+        - log: "Hawkeye Concord | Complete Kitt File Details: ${kittCompletedDeployments}"
     - if: ${ event == "push" }
       then:
         - log: "Hawkeye Concord | Deploying non PR stages"
@@ -101,6 +101,7 @@ flows:
         - ${itemsByStage.add(itemByStage)}
         - call: deploy-by-stage
           withItems: ${itemsByStage}
+        - log: "Hawkeye Concord | Final Deployed Details: ${kittCompletedDeployments}"
 
   onFailure:
     - log: "Hawkeye Concord | Pipeline failed to complete"
