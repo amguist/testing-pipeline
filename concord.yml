@@ -78,7 +78,7 @@ flows:
         storeName: "${repo}-${version}"
     - log: "Hawkeye Concord | Store Name: ${storeName}"
     - checkpoint: "Start"
-    - if: ${jsonStore.isStoreExists(storeName, storeItemName)}
+    - if: ${jsonStore.isStoreExists(storeName)}
       then:
         - log: "Hawkeye Concord | JSON Store, ${storeName}, exists ... continuing to load .."
       else:
