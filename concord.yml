@@ -82,11 +82,6 @@ flows:
     - checkpoint: "Start"
     - expr: ${jsonStore.isStoreExists(storeName)}
       out: storeExists
-    - if: ${storeExists}
-      then:
-        call: retreive_json_store_values
-        in:
-          version: ${version}
     - expr: ${kittFilesGraph.size()}
       out: graphSize
     - if: ${graphSize > 0}
