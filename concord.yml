@@ -11,7 +11,8 @@ configuration:
     kittFiles: [ "test-env-cloud.yml", "release-3040-cloud.yml", "release-8972-cloud.yml" ]
     organization: "Hawkeye"
     kittFilesGraph: [ ["test-env-cloud.yml" ], ["test-env-cloud.yml", "release-3040-cloud.yml"], [ "test-env-cloud.yml", "release-8972-cloud.yml"], [ "test-env-cloud.yml", "release-3040-cloud.yml", "release-8972-cloud.yml"] ]
-    kittCompletedDeployments: [ ]
+    kittInfo:
+      kittCompletedDeployments: [ ]
     repo: "test-pipeline"
     baseProfile: { }
     event: "push"
@@ -47,7 +48,7 @@ flows:
       withItems: ${kittFiles}
       in:
         stageRefs: [ "${stageName}" ]
-    - ${kittCompletedDeployments.addAll(deployments)}
+    - ${kittInfo.kittCompletedDeployments.addAll(deployments)}
 
   deploy-by-ref:
     - log: "Hawkeye Concord | deploy-by-ref ${item}"
@@ -70,7 +71,7 @@ flows:
 
   update-json-store:
     - log: "Hawkeye Concord | Updating JSON Store, ${storeName} ..."
-    - ${jsonStore.upsert(storeName,storeItemName,kittCompletedDeployments)}
+    - ${jsonStore.upsert(storeName,storeItemName,kittInfo)}
 
   deploy:
     - log: "Hawkeye Concord | !!! GITHUB EVENT !!! ${event}"
@@ -99,8 +100,7 @@ flows:
           out: selectedKittFiles
         - set:
             kittFiles: ${selectedKittFiles}
-        - log: "Hawkeye Concord | Complete Kitt File Details: ${kittCompletedDeployments}"
-        - call: update-json-store
+        - log: "Hawkeye Concord | Complete Kitt File Details: ${kittInfo.kittCompletedDeployments}"
     - if: ${ event == "push" }
       then:
         - log: "Hawkeye Concord | Deploying non PR stages"
@@ -112,8 +112,8 @@ flows:
         - ${itemsByStage.add(itemByStage)}
         - call: deploy-by-stage
           withItems: ${itemsByStage}
-        - log: "Hawkeye Concord | Final Deployed Details: ${kittCompletedDeployments}"
-        - log: ${resource.writeAsJson(kittCompletedDeployments)}
+        - log: "Hawkeye Concord | Final Deployed Details: ${kittInfo.kittCompletedDeployments}"
+        - call: update-json-store
 
   onFailure:
     - log: "Hawkeye Concord | Pipeline failed to complete"
