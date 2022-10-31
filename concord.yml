@@ -19,7 +19,7 @@ configuration:
     useFormDeploymentFlow: false
 
   meta:
-    kittCompleted: [ ]
+    kittCompleted: []
 
 forms:
   deploymentForm:
@@ -29,6 +29,47 @@ flows:
   default:
     - log: "Hawkeye-Concord | This is the default flow"
 
+  kitt-deploy:
+    - log: "Hawkeye Concord | Reading contents of kitt file ${item}"
+    - set:
+        deploymentInfo:
+          stage: ${stageRef[0]}
+          kittFile: ${item}
+    - ${deployments.add(deploymentInfo)}
+
+  deploy-stage:
+    - log: "Hawkeye-Concord | We got ${stageName}"
+    - log: "Hawkeye-Concord | Deploying to ${stageName} with baseProfile=${baseProfile}"
+    - checkpoint: "Deploy_${stageName}"
+    - set:
+        jobIds: [ ]
+        deployments: [ ]
+    - call: kitt-deploy
+      withItems: ${kittFiles}
+      in:
+        stageRefs: [ "${stageName}" ]
+    - ${kittCompletedDeployments.addAll(deployments)}
+
+
+  deploy-by-ref:
+    - log: "Hawkeye Concord | deploy-by-ref ${item}"
+    - if: ${branch.matches(item)}
+      then:
+        - call: deploy-stage
+          in:
+            stageName: ${stageName}
+      else:
+        - log: "Hawkeye Concord | Skipping unmatched ref: ${item}"
+
+  deploy-by-stage:
+    - log: "Hawkeye Concord | deploy-by-stage ${item.name} - ${item.refs}"
+    - set:
+        stageName: ${item.name}
+    - call: deploy-by-ref
+      in:
+        stageName: ${stageName}
+      withItems: ${item.refs}
+
   deploy:
     - log: "Hawkeye Concord | !!! GITHUB EVENT !!! ${event}"
     - checkpoint: "Start"
@@ -36,7 +77,7 @@ flows:
       out: graphSize
     - if: ${graphSize > 0}
       then:
-        - form: deploymentForm
+        - form:
           values:
             processId: ${txId}
             repo: ${repo}
