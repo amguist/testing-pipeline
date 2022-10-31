@@ -6,7 +6,7 @@ configuration:
   arguments:
     entryPoint: deploy
     version: "1.0"
-    branch: "main"
+    branch: "develop"
     commitSHA: ""
     kittFiles: [ "test-env-cloud.yml", "release-3040-cloud.yml", "release-8972-cloud.yml" ]
     organization: "Hawkeye"
