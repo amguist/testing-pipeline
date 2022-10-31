@@ -30,12 +30,18 @@ flows:
     - log: "Hawkeye-Concord | This is the default flow"
 
   kitt-deploy:
-    - log: "Hawkeye Concord | Reading contents of kitt file ${item}"
-    - set:
-        deploymentInfo:
-          stage: ${stageRefs[0]}
-          kittFile: ${item}
-    - ${deployments.add(deploymentInfo)}
+    - expr: ${kittInfo.kittCompletedDeployments.stream().filter(s -> currentStage.equal(s.stage) && item.equals.s.kittFile)).toList().size()}
+      out: alreadyCompletedProcess
+    - if: ${alreadyCompletedProcess <= 0}
+      then:
+        - log: "Hawkeye Concord | Reading contents of kitt file ${item}"
+        - set:
+            deploymentInfo:
+              stage: ${stageRefs[0]}
+              kittFile: ${item}
+        - ${deployments.add(deploymentInfo)}
+      else:
+        - log: "Hawkeye Concord | Skipping deployment of Stage: ${currentStage} and KittFile: ${item}"
 
   deploy-stage:
     - log: "Hawkeye-Concord | We got ${stageName}"
