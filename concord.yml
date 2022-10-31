@@ -18,9 +18,6 @@ configuration:
     channelName: "hawkeye-kitt"
     useFormDeploymentFlow: false
 
-  meta:
-    kittCompleted: []
-
 forms:
   deploymentForm:
     - onlySelectedKittFiles: { label: "Kitt Files", type: "string*" }
@@ -49,7 +46,6 @@ flows:
       in:
         stageRefs: [ "${stageName}" ]
     - ${kittCompletedDeployments.addAll(deployments)}
-    - ${kittCompleted.addAll(deployments)}
 
   deploy-by-ref:
     - log: "Hawkeye Concord | deploy-by-ref ${item}"
