@@ -16,7 +16,6 @@ configuration:
     baseProfile: { }
     event: "push"
     channelName: "hawkeye-kitt"
-    stages: [ { refs=[develop], name=dev }, { refs=[main], name=qa } ]
     useFormDeploymentFlow: false
 
 forms:
