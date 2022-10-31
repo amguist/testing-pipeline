@@ -78,6 +78,7 @@ flows:
         - log: "Can not find the item requested in the JSON Store"
       else:
         - log: "${storeItem}"
+        - ${kittInfo.kittCompletedDeployments.addAll(storeItem.kittCompletedDeployments)}
 
   update-json-store:
     - log: "Hawkeye Concord | Updating JSON Store, ${storeName} ..."
