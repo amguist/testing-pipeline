@@ -16,7 +16,7 @@ configuration:
     baseProfile: { }
     event: "push"
     channelName: "hawkeye-kitt"
-    storeName: "${repo}-${version}"
+    storeName: ""
     useFormDeploymentFlow: false
 
 forms:
@@ -76,6 +76,8 @@ flows:
 
   deploy:
     - log: "Hawkeye Concord | !!! GITHUB EVENT !!! ${event}"
+    - set:
+        storeName: "${repo}-${version}"
     - log: "Hawkeye Concord | Store Name: ${storeName}"
     - checkpoint: "Start"
     - expr: ${jsonStore.isStoreExists(storeName)}
