@@ -4,22 +4,86 @@ configuration:
     - mvn://org.codehaus.groovy:groovy-all:pom:2.5.2
 
   arguments:
+    entryPoint: deploy
     version: "1.0"
     branch: "main"
     commitSHA: ""
     kittFiles: [ "test-env-cloud.yml", "release-3040-cloud.yml", "release-8972-cloud.yml" ]
+    organization: "Hawkeye"
     kittFilesGraph: [ ["test-env-cloud.yml" ], ["test-env-cloud.yml", "release-3040-cloud.yml"], [ "test-env-cloud.yml", "release-8972-cloud.yml"], [ "test-env-cloud.yml", "release-3040-cloud.yml", "release-8972-cloud.yml"] ]
     kittCompletedDeployment: [ ]
     repo: "http://github.com/amguist/test-pipeline"
     baseProfile: { }
     event: ""
     channelName: "hawkeye-kitt"
-    stages: [ "dev" ]
-
-flows:
-  default:
-    - log: "Hawkeye-Concord | Process ID is ${concordPid}"
+    stages: [ { refs=[develop], name=dev }, { refs=[main], name=qa } ]
+    useFormDeploymentFlow: false
 
 forms:
   deploymentForm:
     - onlySelectedKittFiles: { label: "Kitt Files", type: "string*" }
+
+flows:
+  default:
+    - log: "Hawkeye-Concord | This is the default flow"
+
+  kitt-deploy:
+    - log: "Hawkeye Concord | Reading contents of kitt file ${item}"
+    - set:
+        deploymentInfo:
+          stage: ${stageRef[0]}
+          kittFile: ${item}
+    - ${deployments.add(deploymentInfo)}
+
+  deploy-stage:
+    - log: "Hawkeye-Concord | We got ${stageName}"
+    - log: "Hawkeye-Concord | Deploying to ${stageName} with baseProfile=${baseProfile}"
+    - checkpoint: "Deploy_${stageName}"
+    - set:
+        jobIds: [ ]
+        deployments: [ ]
+    - call: kitt-deploy
+      withItems: ${kittFiles}
+      in:
+        stageRefs: [ "${stageName}" ]
+    - ${kittCompletedDeployments.addAll(deployments)}
+
+
+  deploy-by-ref:
+    - log: "Hawkeye Concord | deploy-by-ref ${item}"
+    - if: ${branch.matches(item)}
+      then:
+        - call: deploy-stage
+          in:
+            stageName: ${stageName}
+      else:
+        - log: "Hawkeye Concord | Skipping unmatched ref: ${item}"
+
+  deploy-by-stage:
+    - log: "Hawkeye Concord | deploy-by-stage ${item.name} - ${item.refs}"
+    - set:
+        stageName: ${item.name}
+    - call: deploy-by-ref
+      in:
+        stageName: ${stageName}
+      withItems: ${item.refs}
+
+  deploy:
+    - log: "Hawkeye Concord | !!! GITHUB EVENT !!! ${event}"
+    - checkpoint: "Start"
+    - expr: ${kittFilesGraph.size()}
+      out: graphSize
+    - if: ${graphSize > 0}
+      then:
+        - set:
+            useFormDeploymentFlow: true
+    - if: ${ event == "push" }
+      then:
+        - log: "Hawkeye Concord | Deploying non PR stages"
+        - set:
+            itemsByStage: $stages
+        - call: deploy-by-stage
+          withItems: ${itemsByStage}
+
+  onFailure:
+    - log: "Hawkeye Concord | Pipeline failed to complete"
