@@ -17,6 +17,7 @@ configuration:
     event: "push"
     channelName: "hawkeye-kitt"
     storeName: ""
+    storeItemName: "kittCompletedDeployments"
     useFormDeploymentFlow: false
 
 forms:
@@ -67,12 +68,9 @@ flows:
         stageName: ${stageName}
       withItems: ${item.refs}
 
-  retrieve_json_store_values:
-    - log: "Hawkeye Concord | retrieving store values based on version: ${item}"
-    - set:
-        storeName: "${repo}-${version}"
-    - expr: ${jsonStore.get(storeName, kittCompletedDeployments)}
-      out: item
+  update-json-store:
+    - log: "Hawkeye Concord | Updating JSON Store, ${storeName} ..."
+    - ${jsonStore.upsert(storeName,storeItemName,kittCompletedDeployments)}
 
   deploy:
     - log: "Hawkeye Concord | !!! GITHUB EVENT !!! ${event}"
@@ -80,7 +78,7 @@ flows:
         storeName: "${repo}-${version}"
     - log: "Hawkeye Concord | Store Name: ${storeName}"
     - checkpoint: "Start"
-    - if: ${jsonStore.isStoreExists(storeName)}
+    - if: ${jsonStore.isStoreExists(storeName, storeItemName)}
       then:
         - log: "Hawkeye Concord | JSON Store, ${storeName}, exists ... continuing to load .."
       else:
@@ -102,6 +100,7 @@ flows:
         - set:
             kittFiles: ${selectedKittFiles}
         - log: "Hawkeye Concord | Complete Kitt File Details: ${kittCompletedDeployments}"
+        - call: update-json-store
     - if: ${ event == "push" }
       then:
         - log: "Hawkeye Concord | Deploying non PR stages"
