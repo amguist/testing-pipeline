@@ -69,6 +69,16 @@ flows:
         stageName: ${stageName}
       withItems: ${item.refs}
 
+  load-previous-completed-info:
+    - log: "Hawkeye Concord | Loading existing data from JSON Store, ${storeName} ..."
+    - expr: "${jsonStore.get('storeName','storeItemName')}"
+      out: storeItem
+    - if: "${storeItem == null}"
+      then:
+        - log: "Can not find the item requested in the JSON Store"
+      else:
+        - log: "${storeItem}"
+
   update-json-store:
     - log: "Hawkeye Concord | Updating JSON Store, ${storeName} ..."
     - ${jsonStore.upsert(storeName,storeItemName,kittInfo)}
@@ -82,6 +92,7 @@ flows:
     - if: ${jsonStore.isStoreExists(storeName)}
       then:
         - log: "Hawkeye Concord | JSON Store, ${storeName}, exists ... continuing to load .."
+        - call: load-previous-completed-info
       else:
         - log: "Hawkeye Concord | No JSON Store exists for store name, ${storeName}, ..."
     - expr: ${kittFilesGraph.size()}
