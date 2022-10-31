@@ -29,6 +29,12 @@ flows:
   default:
     - log: "Hawkeye-Concord | This is the default flow"
 
+  clear-json-store:
+    - set:
+        storeName: "${repo}-${version}"
+    - log: "Hawkeye Concord | Clearing JSON Store for Store Name: ${storeName}"
+    - ${jsonStore.upsert(storeName,storeItemName,kittInfo)}
+
   kitt-deploy:
     - set:
         currentStage: ${stageRefs[0]}
