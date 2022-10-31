@@ -71,9 +71,9 @@ flows:
 
   load-previous-completed-info:
     - log: "Hawkeye Concord | Loading existing data from JSON Store, ${storeName} ..."
-    - expr: "${jsonStore.get('storeName','storeItemName')}"
+    - expr: ${jsonStore.get(storeName,storeItemName)}
       out: storeItem
-    - if: "${storeItem == null}"
+    - if: ${storeItem == null}
       then:
         - log: "Can not find the item requested in the JSON Store"
       else:
