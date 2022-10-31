@@ -11,10 +11,10 @@ configuration:
     kittFiles: [ "test-env-cloud.yml", "release-3040-cloud.yml", "release-8972-cloud.yml" ]
     organization: "Hawkeye"
     kittFilesGraph: [ ["test-env-cloud.yml" ], ["test-env-cloud.yml", "release-3040-cloud.yml"], [ "test-env-cloud.yml", "release-8972-cloud.yml"], [ "test-env-cloud.yml", "release-3040-cloud.yml", "release-8972-cloud.yml"] ]
-    kittCompletedDeployment: [ ]
+    kittCompletedDeployments: [ ]
     repo: "http://github.com/amguist/test-pipeline"
     baseProfile: { }
-    event: ""
+    event: "push"
     channelName: "hawkeye-kitt"
     stages: [ { refs=[develop], name=dev }, { refs=[main], name=qa } ]
     useFormDeploymentFlow: false
@@ -77,6 +77,19 @@ flows:
       then:
         - set:
             useFormDeploymentFlow: true
+        - form:
+          values:
+            processId: ${txId}
+            repo: ${repo}
+            branch: ${branch}
+            version: ${version}
+            kittFilesGraph: ${kittFilesGraph}
+            organization: ${organization}
+        - expr: ${deploymentForm.onlySelectedKittFiles.stream().flatMap(str -> str.split(",").stream()).toList()}
+          out: selectedKittFiles
+        - set:
+            kittFiles: ${selectedKittFiles}
+        - log: "Complete Kitt File Details: ${kittCompletedDeployments}"
     - if: ${ event == "push" }
       then:
         - log: "Hawkeye Concord | Deploying non PR stages"
