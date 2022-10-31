@@ -33,7 +33,7 @@ flows:
     - log: "Hawkeye Concord | Reading contents of kitt file ${item}"
     - set:
         deploymentInfo:
-          stage: ${stageRef[0]}
+          stage: ${stageRefs[0]}
           kittFile: ${item}
     - ${deployments.add(deploymentInfo)}
 
