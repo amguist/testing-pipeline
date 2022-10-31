@@ -30,7 +30,9 @@ flows:
     - log: "Hawkeye-Concord | This is the default flow"
 
   kitt-deploy:
-    - expr: ${kittInfo.kittCompletedDeployments.stream().filter(s -> stageRefs[0].equal(s.stage) && item.equals(s.kittFile)).toList().size()}
+    - set:
+        currentStage: ${stageRefs[0]}
+    - expr: ${kittInfo.kittCompletedDeployments.stream().filter(s -> currentStage.equals(s.stage) && item.equals(s.kittFile)).toList().size()}
       out: alreadyCompletedProcess
     - if: ${alreadyCompletedProcess <= 0}
       then:
