@@ -36,7 +36,7 @@ flows:
       out: graphSize
     - if: ${graphSize > 0}
       then:
-        - form:
+        - form: deploymentForm
           values:
             processId: ${txId}
             repo: ${repo}
