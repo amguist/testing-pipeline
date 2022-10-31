@@ -80,8 +80,11 @@ flows:
         storeName: "${repo}-${version}"
     - log: "Hawkeye Concord | Store Name: ${storeName}"
     - checkpoint: "Start"
-    - expr: ${jsonStore.isStoreExists(storeName)}
-      out: storeExists
+    - if: ${jsonStore.isStoreExists(storeName)}
+      then:
+        - log: "Hawkeye Concord | JSON Store, ${storeName}, exists ... continuing to load .."
+      else:
+        - log: "Hawkeye Concord | No JSON Store exists for store name, ${storeName}, ..."
     - expr: ${kittFilesGraph.size()}
       out: graphSize
     - if: ${graphSize > 0}
