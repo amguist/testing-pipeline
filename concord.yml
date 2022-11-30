@@ -105,7 +105,6 @@ flows:
             completedDeployment: true
   deploy:
     - log: "Hawkeye Concord | !!! GITHUB EVENT !!! ${event}"
-    - log: "Hawkeye Concord | Store Name: ${storeName}"
     - checkpoint: "Start"
     - expr: ${kittFilesGraph.size()}
       out: graphSize
