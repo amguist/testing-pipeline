@@ -13,13 +13,12 @@ configuration:
     kittFilesGraph: [ ["test-env-cloud.yml" ], ["test-env-cloud.yml", "release-3040-cloud.yml"], [ "test-env-cloud.yml", "release-8972-cloud.yml"], [ "test-env-cloud.yml", "release-3040-cloud.yml", "release-8972-cloud.yml"] ]
     kittInfo:
       kittCompletedDeployments: [ ]
+    deploymentUsingGraph: false
+    usingKittFileSelection: false
     repo: "test-pipeline"
     baseProfile: { }
     event: "push"
     channelName: "hawkeye-kitt"
-    storeName: ""
-    storeItemName: "kittCompletedDeployments"
-    useFormDeploymentFlow: false
 
 forms:
   deploymentForm:
@@ -28,12 +27,6 @@ forms:
 flows:
   default:
     - log: "Hawkeye-Concord | This is the default flow"
-
-  clear-json-store:
-    - set:
-        storeName: "${repo}-${version}"
-    - log: "Hawkeye Concord | Clearing JSON Store for Store Name: ${storeName}"
-    - ${jsonStore.upsert(storeName,storeItemName,kittInfo)}
 
   kitt-deploy:
     - set:
@@ -83,50 +76,34 @@ flows:
         stageName: ${stageName}
       withItems: ${item.refs}
 
-  load-previous-completed-info:
-    - log: "Hawkeye Concord | Loading existing data from JSON Store, ${storeName} ..."
-    - expr: ${jsonStore.get(storeName,storeItemName)}
-      out: storeItem
-    - if: ${storeItem == null}
-      then:
-        - log: "Can not find the item requested in the JSON Store"
-      else:
-        - log: "${storeItem}"
-        - ${kittInfo.kittCompletedDeployments.addAll(storeItem.kittCompletedDeployments)}
-
-  update-json-store:
-    - log: "Hawkeye Concord | Updating JSON Store, ${storeName} ..."
-    - ${jsonStore.upsert(storeName,storeItemName,kittInfo)}
+  displayDeploy:
+    - checkpoint: deploy
+    - form: deploymentForm
+      values:
+        processId: ${txId}
+        repo: ${repo}
+        branch: ${branch}
+        version: ${version}
+        kittFilesGraph: ${kittFilesGraph}
+        organization: ${organization}
+        executedBy: ${currentUser.username}
+    - expr: ${deploymentForm.onlySelectedKittFiles.stream().flatMap(str -> str.split(",").stream()).toList()}
+      out: selectedKittFiles
+    - set:
+        kittFiles: ${selectedKittFiles}
+    - log: "Hawkeye Concord | Complete Kitt File Details: ${kittInfo.kittCompletedDeployments}"
 
   deploy:
     - log: "Hawkeye Concord | !!! GITHUB EVENT !!! ${event}"
-    - set:
-        storeName: "${repo}-${version}"
     - log: "Hawkeye Concord | Store Name: ${storeName}"
     - checkpoint: "Start"
-    - if: ${jsonStore.isStoreExists(storeName)}
-      then:
-        - log: "Hawkeye Concord | JSON Store, ${storeName}, exists ... continuing to load .."
-        - call: load-previous-completed-info
-      else:
-        - log: "Hawkeye Concord | No JSON Store exists for store name, ${storeName}, ..."
     - expr: ${kittFilesGraph.size()}
       out: graphSize
     - if: ${graphSize > 0}
       then:
-        - form: deploymentForm
-          values:
-            processId: ${txId}
-            repo: ${repo}
-            branch: ${branch}
-            version: ${version}
-            kittFilesGraph: ${kittFilesGraph}
-            organization: ${organization}
-        - expr: ${deploymentForm.onlySelectedKittFiles.stream().flatMap(str -> str.split(",").stream()).toList()}
-          out: selectedKittFiles
         - set:
-            kittFiles: ${selectedKittFiles}
-        - log: "Hawkeye Concord | Complete Kitt File Details: ${kittInfo.kittCompletedDeployments}"
+            deploymentUsingGraph: true
+        - call: displayDeploy
     - if: ${ event == "push" }
       then:
         - log: "Hawkeye Concord | Deploying non PR stages"
@@ -138,8 +115,7 @@ flows:
         - ${itemsByStage.add(itemByStage)}
         - call: deploy-by-stage
           withItems: ${itemsByStage}
-        - log: "Hawkeye Concord | Final Deployed Details: ${kittInfo.kittCompletedDeployments}"
-        - call: update-json-store
+        - log: "Hawkeye Concord | Deployment through pipeline finished"
 
   onFailure:
     - log: "Hawkeye Concord | Pipeline failed to complete"

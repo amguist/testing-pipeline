@@ -93,7 +93,16 @@
                 // Go ahead and loop through the kitt files graph in order to assign values to that
                 // of the dropdown
                 $('.ui.dropdown').dropdown();
+
                 let kittOptions = []
+                let defaultOption = {
+                    "name" : "Default",
+                    "value" : "Default",
+                    "text" : "Default"
+                }
+                kittOptions.push(defaultOption);
+                $('.ui.dropdown').dropdown({values: kittOptions});
+
                 for (const kittGraph of data.values.kittFilesGraph) {
                     let option = {
                         "name" : kittGraph,
@@ -102,6 +111,14 @@
                     }
                     kittOptions.push(option);
                 }
+                $('.ui.dropdown').dropdown({values: kittOptions});
+
+                let doneOption = {
+                    "name" : "Done",
+                    "value" : "Done",
+                    "text" : "Done"
+                }
+                kittOptions.push(defaultOption);
                 $('.ui.dropdown').dropdown({values: kittOptions});
             }
 
