@@ -87,12 +87,22 @@ flows:
         kittFilesGraph: ${kittFilesGraph}
         organization: ${organization}
         executedBy: ${currentUser.username}
+    - expr: ${deploymentForm.onlySelectedKittFiles.stream().filter(done -> done.contains('Done')).toList().size()}
+      out: deploymentDone
+    - expr: ${deploymentForm.onlySelectedKittFiles.stream().filter(done -> done.contains('Default')).toList().size()}
+      out: useSuppliedKittFiles
     - expr: ${deploymentForm.onlySelectedKittFiles.stream().flatMap(str -> str.split(",").stream()).toList()}
       out: selectedKittFiles
-    - set:
-        kittFiles: ${selectedKittFiles}
-    - log: "Hawkeye Concord | Complete Kitt File Details: ${kittInfo.kittCompletedDeployments}"
 
+    - if: ${deploymentDone != 0}
+      then:
+        - if: ${usingSupplyKittFiles != 1}
+          then:
+            - set:
+                kittFiles: ${selectedKittFiles}
+      else:
+        - set:
+            completedDeployment: true
   deploy:
     - log: "Hawkeye Concord | !!! GITHUB EVENT !!! ${event}"
     - log: "Hawkeye Concord | Store Name: ${storeName}"
