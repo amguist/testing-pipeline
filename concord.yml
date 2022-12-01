@@ -110,6 +110,7 @@ flows:
         - log: "Hawkeye Concord | There are no valid deployments at this stage ${stageRefs}"
     - log: "Hawkeye Concord | Finished deploying to stage, ${stageName}, with baseProfile=${baseProfile}"
     - ${jobIds.clear()}
+    - ${deployments.clear()}
 
   deploy-by-ref:
     - log: "Hawkeye Concord | deploy-by-ref: ${item}"
