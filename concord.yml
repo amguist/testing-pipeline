@@ -31,6 +31,10 @@ flows:
 
   kitt-deploy:
     - log: "Hawkeye Concord | Reading contents of kitt file ${item}"
+    - expr: ${stageRefs[0]}
+      out: currentStage
+    - log: "Hawkeye Concord | Calling onlyDeploy Repo=${repo} Branch=${branch} Version=${version} BaseProfile=${baseProfile}"
+    - checkpoint: "Deploy_${item}_${currentStage}
 
   deploy-stage:
     - log: "Hawkeye Concord | Deploying to stage ${stageName} with baseProfile=${baseProfile}"
