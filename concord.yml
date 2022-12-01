@@ -59,15 +59,33 @@ flows:
     - ${jobIds.addAll(jobs)}
     - ${deployments.add(deploymentInfo)}
 
+  filter-kitt-files:
+    - log: "Filtering out those kitt files that have been deployed already"
+    - set:
+        currentStage: ${stageRefs[0]}
+    - expr: ${kittInfo.kittCompletedDeployments.stream().filter(s -> currentStage.equals(s.stage) && item.equals(s.kittFile)).toList().size()}
+      out: stageKittFileAlreadyProcessed
+    - if: ${stageKittFileAlreadyProcessed <= 0}
+      then:
+        - ${filteredKittFiles.add(item)}
+      else:
+        - log: "Hawkeye Concord | Deployment for Stage: ${currentStage} and Kitt File: ${item} already deployed ... skipping"
+
   deploy-stage:
     - log: "Hawkeye Concord | Deploying to stage ${stageName} with baseProfile=${baseProfile}"
     - checkpoint: "Deploy_${stageName}"
     - set:
         jobIds: [ ]
         deployments: [ ]
+        filteredKittFiles: [ ]
     - if: ${usingKittFileSelection == true}
       then:
-        - log: "Hawkeye Concord | Using new deployment flow based on kitt file selection only"
+        - call: filter-kitt-files
+          withItems: ${kittFiles}
+          in:
+            stageRefs: [ "${stageName}" ]
+        - set:
+            kittFiles: ${filteredKittFiles}
       else:
         - log: "Hawkeye Concord | Using normal existing flow"
     - call: kitt-deploy
