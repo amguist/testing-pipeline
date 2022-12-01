@@ -14,7 +14,6 @@ configuration:
     kittInfo:
       kittCompletedDeployments: [ ]
     deploymentUsingGraph: false
-    usingKittFileSelection: false
     completeIndicator: 0
     repo: "test-pipeline"
     baseProfile: { }
@@ -78,7 +77,7 @@ flows:
         jobIds: [ ]
         deployments: [ ]
         filteredKittFiles: [ ]
-    - if: ${usingKittFileSelection == true}
+    - if: ${deploymentUsingGraph == true}
       then:
         - call: filter-kitt-files
           withItems: ${kittFiles}
