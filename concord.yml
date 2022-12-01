@@ -63,13 +63,9 @@ flows:
         currentStage: ${stageRefs[0]}
     - expr: ${kittInfo.kittCompletedDeployments.stream().filter(s -> currentStage.equals(s.stage) && item.equals(s.kittFile)).toList().size()}
       out: stageKittFileAlreadyProcessed
-    - if: ${stageKittFileAlreadyProcessed <= 0}
-      then:
-        - ${filteredKittFiles.add(item)}
-      else:
-        - ${filteredKittFiles.remove(item)}
+    - if: ${stageKittFileAlreadyProcessed > 0}
+        - ${kittFiles.remove(item)}
         - log: "Hawkeye Concord | Deployment for Stage: ${currentStage} and Kitt File: ${item} already deployed ... skipping"
-    - log: "Hawkeye Concord | Current values of those to be deployed are: ${filteredKittFiles}"
 
   deploy-stage:
     - log: "Hawkeye Concord | Deploying to stage ${stageName} with baseProfile=${baseProfile}"
@@ -77,10 +73,8 @@ flows:
     - set:
         jobIds: [ ]
         deployments: [ ]
-        filteredKittFiles: [ ]
     - if: ${deploymentUsingGraph == true}
       then:
-        - log: "Hawkeye Concord | deploy-stage filteredKittFiles value: ${filteredKittFiles}"
         - call: filter-kitt-files
           withItems: ${kittFiles}
           in:
