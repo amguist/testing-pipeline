@@ -29,12 +29,18 @@ flows:
   default:
     - log: "Hawkeye-Concord | This is the default flow"
 
+  deploy-stage:
+    - log: "Hawkeye Concord | Deploying to stage ${stageName} with baseProfile=${baseProfile}"
+
   deploy-by-ref:
     - log: "Hawkeye Concord | deploy-by-ref: ${item}"
     - log: "========================================"
     - if: ${branch.matches(item)}
       then:
         - log: "Hawkeye Concord | Continuing to process matched ref: ${item}"
+        - call: deploy-stage
+          in:
+            stageName: ${stageName}
       else:
         - log: "Hawkeye Concord | Skipping unmatched ref: ${item}"
 
