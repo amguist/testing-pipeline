@@ -82,7 +82,7 @@ flows:
         - set:
             statusMap: ${concord.waitForCompletion(jobIds)}
             jobsStatus: "${statusMap.entrySet().stream().map(e -> {'jobId' : e.key, 'status' : e.value.status}).toList()}"
-            failedJobs: "${statusMap.entrySet().stream().filter(e -> !e.value.status.toString.equals('FINISHED')).map(e -> {'jobId' : e.key, 'status' : e.value.status}).toList()}"
+            failedJobs: "${statusMap.entrySet().stream().filter(e -> !e.value.status.toString().equals('FINISHED')).map(e -> {'jobId' : e.key, 'status' : e.value.status}).toList()}"
         - log: "Hawkeye Concord | Jobs Status: ${jobsStatus}"
         - if: ${failedJobs.size() != 0}
           then:
