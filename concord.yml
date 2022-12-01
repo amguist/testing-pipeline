@@ -29,6 +29,9 @@ flows:
   default:
     - log: "Hawkeye-Concord | This is the default flow"
 
+  kitt-deploy:
+    - log: "Hawkeye Concord | Reading contents of kitt file ${item}"
+
   deploy-stage:
     - log: "Hawkeye Concord | Deploying to stage ${stageName} with baseProfile=${baseProfile}"
     - checkpoint: "Deploy_${stageName}"
@@ -40,6 +43,10 @@ flows:
         - log: "Hawkeye Concord | Using new deployment flow based on kitt file selection only"
       else:
         - log: "Hawkeye Concord | Using normal existing flow"
+    - call: kitt-deploy
+      withItems: ${kittFiles}
+      in:
+        stageRefs: [ "${stageName}" ]
     - expr: ${jobIds.size()}
       out: jobsCount
     - if: ${jobsCount > 0}
