@@ -123,10 +123,11 @@ flows:
           then:
             - log: "Hawkeye Concord | Deploying non PR stages"
             - set:
-              itemByStage:
-                name: "dev"
-                refs: [ "develop" ]
-              itemsByStage: [ ]
+                itemByStage:
+                  name: "dev"
+                  refs: [ "develop" ]
+                itemsByStage: [ ]
+            - ${itemsByStage.add(itemByStage)}
     - log: "Hawkeye Concord | Selected Kitt Files: ${kittFiles}"
     - log: "Hawkeye Concord | Deployment through pipeline finished"
 
