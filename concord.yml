@@ -95,7 +95,7 @@ flows:
     - expr: ${deploymentForm.onlySelectedKittFiles.stream().flatMap(str -> str.split(",").stream()).toList()}
       out: selectedKittFiles
 
-    - if: ${deploymentDone != 0}
+    - if: ${deploymentDone == 0}
       then:
         - log: "Hawkeye Concord | Deployment is not done .. checking to see if using defaults"
         - if: ${useSuppliedKittFiles != 1}
