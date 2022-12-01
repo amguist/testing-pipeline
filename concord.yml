@@ -64,6 +64,7 @@ flows:
     - expr: ${kittInfo.kittCompletedDeployments.stream().filter(s -> currentStage.equals(s.stage) && item.equals(s.kittFile)).toList().size()}
       out: stageKittFileAlreadyProcessed
     - if: ${stageKittFileAlreadyProcessed > 0}
+      then:
         - ${kittFiles.remove(item)}
         - log: "Hawkeye Concord | Deployment for Stage: ${currentStage} and Kitt File: ${item} already deployed ... skipping"
 
