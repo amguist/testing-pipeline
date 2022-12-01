@@ -15,6 +15,7 @@ configuration:
       kittCompletedDeployments: [ ]
     deploymentUsingGraph: false
     usingKittFileSelection: false
+    completeIndicator: 0
     repo: "test-pipeline"
     baseProfile: { }
     event: "push"
@@ -113,18 +114,20 @@ flows:
         - set:
             deploymentUsingGraph: true
         - call: displayDeploy
-    - if: ${ event == "push" }
+    - if: ${ completeIndicator != 0 }
       then:
-        - log: "Hawkeye Concord | Deploying non PR stages"
-        - set:
-            itemByStage:
-              name: "dev"
-              refs: [ "develop" ]
-            itemsByStage: [ ]
-        - ${itemsByStage.add(itemByStage)}
-        - call: deploy-by-stage
-          withItems: ${itemsByStage}
-        - log: "Hawkeye Concord | Deployment through pipeline finished"
+        - if: ${ event == "push" }
+          then:
+            - log: "Hawkeye Concord | Deploying non PR stages"
+            - set:
+              itemByStage:
+                name: "dev"
+                refs: [ "develop" ]
+              itemsByStage: [ ]
+            - ${itemsByStage.add(itemByStage)}
+            - call: deploy-by-stage
+              withItems: ${itemsByStage}
+    - log: "Hawkeye Concord | Deployment through pipeline finished"
 
   onFailure:
     - log: "Hawkeye Concord | Pipeline failed to complete"
