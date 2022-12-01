@@ -62,6 +62,7 @@ flows:
     - set:
         currentStage: ${stageRefs[0]}
     - log: "Hawkeye Concord | Deployment Kitt Files Completed ${kittInfo.kittCompletedDeployments}"
+    - log: "Current Stage: ${currentStage} and File: ${item}"
     - expr: ${kittInfo.kittCompletedDeployments.stream().filter(s -> currentStage.equals(s.stage) && item.equals(s.kittFile)).toList().size()}
       out: stageKittFileAlreadyProcessed
     - log: "Hawkeye Concord | Value of already staged: ${stageKittFileAlreadyProcessed}"
