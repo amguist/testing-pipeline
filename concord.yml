@@ -79,7 +79,7 @@ flows:
         filteredKittFiles: [ ]
     - if: ${deploymentUsingGraph == true}
       then:
-        - log: "Hawkeye Concord | deploy-stage filteredKittFiles value: ${filterKittFiles}"
+        - log: "Hawkeye Concord | deploy-stage filteredKittFiles value: ${filteredKittFiles}"
         - call: filter-kitt-files
           withItems: ${kittFiles}
           in:
