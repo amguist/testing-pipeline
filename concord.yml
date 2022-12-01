@@ -204,7 +204,7 @@ flows:
             - ${itemsByStage.add(itemByStage)}
             - call: deploy-by-stage
               withItems: ${itemsByStage}
-            - call: continue-deployment
+            - call: deploy
     - log: "Hawkeye Concord | Deployment Kitt Files Completed ${kittInfo.kittCompletedDeployments}"
     - log: "Hawkeye Concord | Deployment through pipeline finished"
 
