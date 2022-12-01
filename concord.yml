@@ -29,53 +29,11 @@ flows:
   default:
     - log: "Hawkeye-Concord | This is the default flow"
 
-  kitt-deploy:
-    - set:
-        currentStage: ${stageRefs[0]}
-    - expr: ${kittInfo.kittCompletedDeployments.stream().filter(s -> currentStage.equals(s.stage) && item.equals(s.kittFile)).toList().size()}
-      out: alreadyCompletedProcess
-    - if: ${alreadyCompletedProcess <= 0}
-      then:
-        - log: "Hawkeye Concord | Reading contents of kitt file ${item}"
-        - set:
-            deploymentInfo:
-              stage: ${stageRefs[0]}
-              kittFile: ${item}
-        - ${deployments.add(deploymentInfo)}
-      else:
-        - log: "Hawkeye Concord | Skipping deployment of Stage: ${currentStage} and KittFile: ${item}"
-
-  deploy-stage:
-    - log: "Hawkeye-Concord | We got ${stageName}"
-    - log: "Hawkeye-Concord | Deploying to ${stageName} with baseProfile=${baseProfile}"
-    - checkpoint: "Deploy_${stageName}"
-    - set:
-        jobIds: [ ]
-        deployments: [ ]
-    - call: kitt-deploy
-      withItems: ${kittFiles}
-      in:
-        stageRefs: [ "${stageName}" ]
-    - ${kittInfo.kittCompletedDeployments.addAll(deployments)}
-
-  deploy-by-ref:
-    - log: "Hawkeye Concord | deploy-by-ref ${item}"
-    - if: ${branch.matches(item)}
-      then:
-        - call: deploy-stage
-          in:
-            stageName: ${stageName}
-      else:
-        - log: "Hawkeye Concord | Skipping unmatched ref: ${item}"
 
   deploy-by-stage:
     - log: "Hawkeye Concord | deploy-by-stage ${item.name} - ${item.refs}"
     - set:
         stageName: ${item.name}
-    - call: deploy-by-ref
-      in:
-        stageName: ${stageName}
-      withItems: ${item.refs}
 
   displayDeploy:
     - checkpoint: deploy
@@ -128,6 +86,8 @@ flows:
                   refs: [ "develop" ]
                 itemsByStage: [ ]
             - ${itemsByStage.add(itemByStage)}
+            - call: deploy-by-stage
+              withItems: ${itemsByStage}
     - log: "Hawkeye Concord | Selected Kitt Files: ${kittFiles}"
     - log: "Hawkeye Concord | Deployment through pipeline finished"
 
