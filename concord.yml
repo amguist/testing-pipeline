@@ -103,7 +103,7 @@ flows:
                 kittFiles: ${selectedKittFiles}
       else:
         - set:
-            completedDeployment: true
+            completeIndicator: 1
   deploy:
     - log: "Hawkeye Concord | !!! GITHUB EVENT !!! ${event}"
     - checkpoint: "Start"
