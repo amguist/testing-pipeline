@@ -114,9 +114,10 @@ flows:
         - set:
             deploymentUsingGraph: true
         - call: displayDeploy
-    - if: ${completeIndicator == 0}
+    - if: ${completeIndicator < 1}
       then:
         - log: "Hawkeye Concord | Continuing With Deployment"
+    - log: "Hawkeye Concord | Selected Kitt Files: ${kittFiles}"
     - log: "Hawkeye Concord | Deployment through pipeline finished"
 
   onFailure:
