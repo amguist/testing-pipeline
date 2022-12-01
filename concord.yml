@@ -35,6 +35,24 @@ flows:
       out: currentStage
     - log: "Hawkeye Concord | Calling onlyDeploy Repo=${repo} Branch=${branch} Version=${version} BaseProfile=${baseProfile}"
     - checkpoint: "Deploy_${item}_${currentStage}"
+    - task: concord
+      in:
+        org: default
+        project: strati
+        repo: kitt.master
+        entryPoint: onlyDeploy
+        action: start
+        arguments:
+          onlyDeployOrg: Hawkeye
+          onlyDeployRepo: ${repo}
+          onlyDeployBranch: ${branch}
+          onlyDeployVersion: ${version}
+          onlyDeployKittYmlPath: ${item}
+          stageRefs: ${stageRefs}
+          baseProfile: ${baseProfile}
+    - set:
+        concordLink: http://localhost:8001/#/process/${jobs[0]}
+    - ${jobIds.addAll(jobs)}
 
   deploy-stage:
     - log: "Hawkeye Concord | Deploying to stage ${stageName} with baseProfile=${baseProfile}"
