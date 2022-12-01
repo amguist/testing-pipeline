@@ -37,7 +37,7 @@ flows:
     - checkpoint: "Deploy_${item}_${currentStage}"
     - task: concord
       in:
-        org: default
+        org: Default
         project: strati
         repo: kitt.master
         entryPoint: onlyDeploy
