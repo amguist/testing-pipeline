@@ -52,7 +52,12 @@ flows:
           baseProfile: ${baseProfile}
     - set:
         concordLink: http://localhost:8001/#/process/${jobs[0]}
+        deploymentInfo:
+          stage: ${currentStage}
+          kittFile: ${item}
+          jobId: ${jobs[0]}
     - ${jobIds.addAll(jobs)}
+    - ${deployments.add(deploymentInfo)}
 
   deploy-stage:
     - log: "Hawkeye Concord | Deploying to stage ${stageName} with baseProfile=${baseProfile}"
@@ -76,8 +81,18 @@ flows:
         - ${concord.suspendForCompletion(jobIds)}
         - set:
             statusMap: ${concord.waitForCompletion(jobIds)}
-            jobsStatus: "${statusMap.entrySet().stream().map(e -> { 'jobId' : e.key, 'status' : e.value.status}).toList()}"
+            jobsStatus: "${statusMap.entrySet().stream().map(e -> {'jobId' : e.key, 'status' : e.value.status}).toList()}"
+            failedJobs: "${statusMap.entrySet().stream().filter(e -> !e.value.status.toString.equals('FINISHED')).map(e -> {'jobId' : e.key, 'status' : e.value.status}).toList()}"
         - log: "Hawkeye Concord | Jobs Status: ${jobsStatus}"
+        - if: ${failedJobs.size() != 0}
+          then:
+            - log: "Hawkeye Concord | Jobs ${failedJobs} did not complete successfully"
+            - throw: "Jobs ${failedJobs} did not complete successfully"
+          else:
+            - log: "Hawkeye Concord | All jobs completed successfully"
+            - set:
+                childJobId: ${jobIds[0]}
+            - ${kittInfo.kittCompletedDeployments.addAll(deployments)}
       else:
         - log: "Hawkeye Concord | There are no valid deployments at this stage ${stageRefs}"
     - log: "Hawkeye Concord | Finished deploying to stage, ${stageName}, with baseProfile=${baseProfile}"
@@ -138,6 +153,18 @@ flows:
         - set:
             kittFiles: []
             completeIndicator: 1
+
+  continue-deployment:
+    - call: displayDeploy
+    - set:
+        itemByStage:
+          name: "dev"
+          refs: [ "develop" ]
+        itemsByStage: [ ]
+    - ${itemsByStage.add(itemByStage)}
+    - call: deploy-by-stage
+      withItems: ${itemsByStage}
+
   deploy:
     - log: "Hawkeye Concord | !!! GITHUB EVENT !!! ${event}"
     - checkpoint: "Start"
