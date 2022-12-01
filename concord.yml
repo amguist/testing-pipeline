@@ -8,9 +8,9 @@ configuration:
     version: "1.0"
     branch: "develop"
     commitSHA: ""
-    kittFiles: [ "test-env-cloud.yml", "release-3040-cloud.yml", "release-8972-cloud.yml" ]
+    kittFiles: [ "test-env-cloud.yml", "release-8972-cloud.yml" ]
     organization: "Hawkeye"
-    kittFilesGraph: [ ["test-env-cloud.yml" ], ["test-env-cloud.yml", "release-3040-cloud.yml"], [ "test-env-cloud.yml", "release-8972-cloud.yml"], [ "test-env-cloud.yml", "release-3040-cloud.yml", "release-8972-cloud.yml"] ]
+    kittFilesGraph: [ ["test-env-cloud.yml" ], [ "test-env-cloud.yml", "release-8972-cloud.yml"], [ "test-env-cloud.yml", "release-8972-cloud.yml", "release-3040-cloud.yml" ] ]
     kittInfo:
       kittCompletedDeployments: [ ]
     deploymentUsingGraph: false
