@@ -17,7 +17,7 @@ configuration:
     usingKittFileSelection: false
     completeIndicator: 0
     repo: "test-pipeline"
-    baseProfile: { }
+    baseProfile: {deploy={skip=false}}
     event: "push"
     channelName: "hawkeye-kitt"
 
