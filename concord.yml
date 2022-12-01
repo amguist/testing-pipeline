@@ -67,6 +67,7 @@ flows:
       then:
         - ${filteredKittFiles.add(item)}
       else:
+        - ${filteredKittFiles.remove(item)}
         - log: "Hawkeye Concord | Deployment for Stage: ${currentStage} and Kitt File: ${item} already deployed ... skipping"
     - log: "Hawkeye Concord | Current values of those to be deployed are: ${filteredKittFiles}"
 
