@@ -156,14 +156,16 @@ flows:
 
   continue-deployment:
     - call: displayDeploy
-    - set:
-        itemByStage:
-          name: "dev"
-          refs: [ "develop" ]
-        itemsByStage: [ ]
-    - ${itemsByStage.add(itemByStage)}
-    - call: deploy-by-stage
-      withItems: ${itemsByStage}
+    - if: ${completeIndicator < 1}
+      then:
+        - set:
+            itemByStage:
+              name: "dev"
+              refs: [ "develop" ]
+            itemsByStage: [ ]
+        - ${itemsByStage.add(itemByStage)}
+        - call: deploy-by-stage
+          withItems: ${itemsByStage}
 
   deploy:
     - log: "Hawkeye Concord | !!! GITHUB EVENT !!! ${event}"
@@ -188,6 +190,8 @@ flows:
             - ${itemsByStage.add(itemByStage)}
             - call: deploy-by-stage
               withItems: ${itemsByStage}
+            - call: continue-deployment
+    - log: "Hawkeye Concord | Deployment Kitt Files Completed ${kittInfo.kittCompletedDeployments}"
     - log: "Hawkeye Concord | Deployment through pipeline finished"
 
   onFailure:
