@@ -105,6 +105,7 @@ flows:
                 kittFiles: ${selectedKittFiles}
       else:
         - set:
+            kittFiles: []
             completeIndicator: 1
   deploy:
     - log: "Hawkeye Concord | !!! GITHUB EVENT !!! ${event}"
