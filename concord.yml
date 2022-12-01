@@ -138,7 +138,6 @@ flows:
       withItems: ${item.refs}
 
   displayDeploy:
-    - checkpoint: deploy
     - form: deploymentForm
       values:
         processId: ${txId}
@@ -167,19 +166,6 @@ flows:
         - set:
             kittFiles: []
             completeIndicator: 1
-
-  continue-deployment:
-    - call: displayDeploy
-    - if: ${completeIndicator < 1}
-      then:
-        - set:
-            itemByStage:
-              name: "dev"
-              refs: [ "develop" ]
-            itemsByStage: [ ]
-        - ${itemsByStage.add(itemByStage)}
-        - call: deploy-by-stage
-          withItems: ${itemsByStage}
 
   deploy:
     - log: "Hawkeye Concord | !!! GITHUB EVENT !!! ${event}"
