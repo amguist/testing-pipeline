@@ -31,6 +31,28 @@ flows:
 
   deploy-stage:
     - log: "Hawkeye Concord | Deploying to stage ${stageName} with baseProfile=${baseProfile}"
+    - checkpoint: "Deploy_${stageName}"
+    - set:
+        jobIds: [ ]
+        deployments: [ ]
+    - if: ${usingKittFileSelection == true}
+      then:
+        - log: "Hawkeye Concord | Using new deployment flow based on kitt file selection only"
+      else:
+        - log: "Hawkeye Concord | Using normal existing flow"
+    - expr: ${jobIds.size()}
+      out: jobsCount
+    - if: ${jobsCount > 0}
+      then:
+        - ${concord.suspendForCompletion(jobIds)}
+        - set:
+            statusMap: ${concord.waitForCompletion(jobIds)}
+            jobsStatus: "${statusMap.entrySet().stream().map(e -> { 'jobId' : e.key, 'status' : e.value.status}).toList()}"
+        - log: "Hawkeye Concord | Jobs Status: ${jobsStatus}"
+      else:
+        - log: "Hawkeye Concord | There are no valid deployments at this stage ${stageRefs}"
+    - log: "Hawkeye Concord | Finished deploying to stage, ${stageName}, with baseProfile=${baseProfile}"
+    - ${jobIds.clear()}
 
   deploy-by-ref:
     - log: "Hawkeye Concord | deploy-by-ref: ${item}"
