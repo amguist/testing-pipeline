@@ -114,19 +114,9 @@ flows:
         - set:
             deploymentUsingGraph: true
         - call: displayDeploy
-    - if: ${ completeIndicator != 0 }
+    - if: ${completeIndicator == 0}
       then:
-        - if: ${ event == "push" }
-          then:
-            - log: "Hawkeye Concord | Deploying non PR stages"
-            - set:
-              itemByStage:
-                name: "dev"
-                refs: [ "develop" ]
-              itemsByStage: [ ]
-            - ${itemsByStage.add(itemByStage)}
-            - call: deploy-by-stage
-              withItems: ${itemsByStage}
+        - log: "Hawkeye Concord | Continuing With Deployment"
     - log: "Hawkeye Concord | Deployment through pipeline finished"
 
   onFailure:
