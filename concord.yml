@@ -80,8 +80,6 @@ flows:
           withItems: ${kittFiles}
           in:
             stageRefs: [ "${stageName}" ]
-        - set:
-            kittFiles: ${filteredKittFiles}
         - log: "Hawkeye Concord | deploy-stage KittFiles value after filter: ${kittFiles}"
       else:
         - log: "Hawkeye Concord | Using normal existing flow"
