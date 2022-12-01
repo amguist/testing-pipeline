@@ -9,7 +9,6 @@ configuration:
     branch: "develop"
     commitSHA: ""
     kittFiles: [ "test-env-cloud.yml", "release-8972-cloud.yml" ]
-    kittFilesBackup: [ ]
     organization: "Hawkeye"
     kittFilesGraph: [ ["test-env-cloud.yml" ], [ "test-env-cloud.yml", "release-8972-cloud.yml"], [ "test-env-cloud.yml", "release-8972-cloud.yml", "release-3040-cloud.yml" ] ]
     kittInfo:
@@ -69,16 +68,17 @@ flows:
     - log: "Hawkeye Concord | Value of already staged: ${stageKittFileAlreadyProcessed}"
     - if: ${stageKittFileAlreadyProcessed == 1}
       then:
-        - ${kittFiles.remove(item)}
         - log: "Hawkeye Concord | Deployment for Stage: ${currentStage} and Kitt File: ${item} already deployed ... skipping"
+      else:
+        - ${toDeploy.add(item)}
 
   deploy-stage:
     - log: "Hawkeye Concord | Deploying to stage ${stageName} with baseProfile=${baseProfile}"
     - checkpoint: "Deploy_${stageName}"
     - set:
-        kittFilesBackup: ${kittFiles}
         jobIds: [ ]
         deployments: [ ]
+        toDeploy: [ ]
     - if: ${deploymentUsingGraph == true}
       then:
         - call: filter-kitt-files
@@ -88,8 +88,9 @@ flows:
         - log: "Hawkeye Concord | deploy-stage KittFiles value after filter: ${kittFiles}"
       else:
         - log: "Hawkeye Concord | Using normal existing flow"
+        - ${toDeploy.addAll(kittFiles)}
     - call: kitt-deploy
-      withItems: ${kittFiles}
+      withItems: ${toDeploy}
       in:
         stageRefs: [ "${stageName}" ]
     - expr: ${jobIds.size()}
@@ -116,7 +117,7 @@ flows:
     - log: "Hawkeye Concord | Finished deploying to stage, ${stageName}, with baseProfile=${baseProfile}"
     - ${jobIds.clear()}
     - ${deployments.clear()}
-    - ${kittFiles.clear()}
+    - ${toDeploy.clear()}
 
   deploy-by-ref:
     - log: "Hawkeye Concord | deploy-by-ref: ${item}"
@@ -201,6 +202,7 @@ flows:
       then:
         - set:
             deploymentUsingGraph: true
+            kittFilesBackup: ${kittFiles}
         - call: displayDeploy
     - if: ${completeIndicator < 1}
       then:
