@@ -97,7 +97,7 @@ flows:
 
     - if: ${deploymentDone != 0}
       then:
-        - if: ${usingSupplyKittFiles != 1}
+        - if: ${useSuppliedKittFiles != 1}
           then:
             - set:
                 kittFiles: ${selectedKittFiles}
