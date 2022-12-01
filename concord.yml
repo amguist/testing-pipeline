@@ -9,6 +9,7 @@ configuration:
     branch: "develop"
     commitSHA: ""
     kittFiles: [ "test-env-cloud.yml", "release-8972-cloud.yml" ]
+    kittFilesBackup: [ ]
     organization: "Hawkeye"
     kittFilesGraph: [ ["test-env-cloud.yml" ], [ "test-env-cloud.yml", "release-8972-cloud.yml"], [ "test-env-cloud.yml", "release-8972-cloud.yml", "release-3040-cloud.yml" ] ]
     kittInfo:
@@ -75,6 +76,7 @@ flows:
     - log: "Hawkeye Concord | Deploying to stage ${stageName} with baseProfile=${baseProfile}"
     - checkpoint: "Deploy_${stageName}"
     - set:
+        kittFilesBackup: ${kittFiles}
         jobIds: [ ]
         deployments: [ ]
     - if: ${deploymentUsingGraph == true}
@@ -114,6 +116,7 @@ flows:
     - log: "Hawkeye Concord | Finished deploying to stage, ${stageName}, with baseProfile=${baseProfile}"
     - ${jobIds.clear()}
     - ${deployments.clear()}
+    - ${kittFiles.clear()}
 
   deploy-by-ref:
     - log: "Hawkeye Concord | deploy-by-ref: ${item}"
@@ -172,6 +175,8 @@ flows:
 
   continue-deploy:
     - checkpoint: continue-deployment
+    - set:
+        kittFiles: ${kittFilesBackup}
     - call: displayDeploy
     - if: ${completeIndicator < 1}
       then:
