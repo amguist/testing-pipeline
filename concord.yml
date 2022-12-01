@@ -17,7 +17,7 @@ configuration:
     usingKittFileSelection: false
     completeIndicator: 0
     repo: "test-pipeline"
-    baseProfile: {"deploy={skip=false}"}
+    baseProfile: { }
     event: "push"
     channelName: "hawkeye-kitt"
 
@@ -52,6 +52,9 @@ flows:
     - call: deploy-by-ref
       in:
         stageName: ${stageName}
+        baseProfile:
+          deploy:
+            skip: false
       withItems: ${item.refs}
 
   displayDeploy:
