@@ -20,6 +20,9 @@ configuration:
     event: "push"
     channelName: "hawkeye-kitt"
 
+forms:
+  deploymentForm:
+
 flows:
   default:
     - log: "Hawkeye-Concord | This is the default flow"
