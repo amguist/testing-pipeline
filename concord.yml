@@ -20,10 +20,6 @@ configuration:
     event: "push"
     channelName: "hawkeye-kitt"
 
-forms:
-  deploymentForm:
-    - onlySelectedKittFiles: { label: "Kitt Files", type: "string*" }
-
 flows:
   default:
     - log: "Hawkeye-Concord | This is the default flow"
