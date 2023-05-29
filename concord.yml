@@ -22,6 +22,7 @@ configuration:
 
 forms:
   deploymentForm:
+    - onlySelectedKittFiles: { label: "Kitt Files", type: "string*" }
 
 flows:
   default:
